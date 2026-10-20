@@ -66,6 +66,9 @@ test('inquiry accepts zero budget as honest WTP research, no sale inferred',()=>
   assert(s.includes('<option value="0">'));
   assert(s.includes('<option value="15">'));
   assert(s.includes('name="evidence_question_category" required'));
+  assert(s.includes('<option value="approval-revoke-gas">'));
+  assert(!s.includes('wallet connection required'));
+
   assert((s.match(/<option value="" selected disabled>/g)||[]).length===2);
  }
 });

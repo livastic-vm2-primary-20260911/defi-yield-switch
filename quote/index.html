@@ -32,6 +32,7 @@ form button{margin-top:18px}.note{padding:22px;border:1px solid #527264;border-r
 <div class="field"><label for="vault-source">Official URL of current vault or source documentation *</label><input id="vault-source" type="url" name="source_protocol_docs_url" maxlength="450" autocomplete="off" placeholder="https://docs.example.com/vault-a" required></div>
 <div class="field"><label for="vault-target">Official URL of candidate vault or target documentation *</label><input id="vault-target" type="url" name="candidate_protocol_docs_url" maxlength="450" autocomplete="off" placeholder="https://docs.example.com/vault-b" required></div>
 <div class="field"><label for="topic">What decision are you evaluating? *</label><select id="topic" name="evidence_question_category" required><option value="" selected disabled>Select one</option><option value="cost-break-even">Fee break-even for two public vaults</option>
+<option value="approval-revoke-gas">ERC-20 approval/revoke gas in a public vault route (no wallet audit)</option>
 <option value="redemption-rules">Withdrawal queues and public exit restrictions</option>
 <option value="incentives">Base APY versus reward-token emissions</option>
 <option value="other">Another public-document-only question</option></select></div>
