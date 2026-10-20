@@ -130,3 +130,12 @@ test('one-page paid report example is HONEST synthetic free preview and links to
   assert(sitemap.includes(SITE+'examples/'));
   assert(sitemap.includes(SITE+'ko/examples/'));
 });
+
+test('original third-party educational article links to real examples and local feedback privacy is truthful',()=>{
+  const article='https://dev.to/livasticvm2primary/why-a-2-apy-upgrade-can-lose-money-defi-vault-switching-costs-3h42';
+  for(const html of [en,ko]){
+    assert(html.includes('href="'+article+'" target="_blank" rel="noopener noreferrer"'));
+    assert(html.includes('href="/defi-yield-switch/feedback/"') || html.includes('href="/defi-yield-switch/ko/feedback/"'));
+    assert(!html.includes('Feedback is opt-in via your own email app; this page collects none.'));
+  }
+});
