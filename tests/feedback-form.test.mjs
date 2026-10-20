@@ -70,7 +70,7 @@ test('provider redirects are not indexed and are NEVER treated as proof of deliv
 });
 test('site map references only useful content and excludes potentially misleading thanks redirects',()=>{
   const x=read('sitemap.xml');
-  assert.equal((x.match(/<loc>/g)||[]).length,6);
+  assert.equal((x.match(/<loc>/g)||[]).length,8);
   assert(x.includes('https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/feedback/'));
   assert(x.includes('https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/feedback/'));
   assert(!x.includes('/feedback/thanks/'));

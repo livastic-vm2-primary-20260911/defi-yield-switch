@@ -10,3 +10,5 @@ Calculator source: assets/calculator.mjs; deterministic tests: tests/calculator.
 
 IMPORTANT: User-entered, constant simple annualized APYs are NOT live rates, forecasts, financial or tax advice. Fees, bridge issues, vault exit locks, reward token risk and protocol safety require verification outside this model. There is no onchain connection or real crypto action.
 Optional one-owner 15 USDC scoped report: inquiry only; requires agreed scope before any payment. Optional public wallet tip is NOT an API sale. No independently verified sales of this report yet.
+
+Buyer opt-in scope-only report inquiry: https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/quote/ . No payment until separately agreed terms. Optional external FormSubmit service handles reply email and public links only with consent; no user wallet/private balances.

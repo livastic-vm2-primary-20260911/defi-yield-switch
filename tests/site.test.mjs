@@ -71,7 +71,7 @@ test('public root project GitHub repo and valid site sitemap, robots',()=>{
   const url='https://github.com/livastic-vm2-primary-20260911/defi-yield-switch';
   assert(en.includes(url));assert(ko.includes(url));
   const xml=read('sitemap.xml');
-  assert.equal((xml.match(/<loc>/g)||[]).length,6);
+  assert.equal((xml.match(/<loc>/g)||[]).length,8);
   assert(xml.includes(SITE+'</loc>'));
   assert(xml.includes(SITE+'ko/</loc>'));
   assert(read('robots.txt').includes('Sitemap: '+SITE+'sitemap.xml'));

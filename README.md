@@ -48,6 +48,10 @@ Owner scope: VM2 product/source and inquiry; VM5 publicly operates that one-owne
 
 Owner express 2026-10-19 STOP of raw Golem/AIOZ/DePIN/CPU/GPU/VPS compute rental or substitution remains binding.
 
+## Direct paid-scope request conversion (buyer-initiated; NO prepayment)
+
+The original free tool still works without submitting anything. Separate EN /quote/ and Korean /ko/quote/ landing pages are fully static native browser forms for a potential, individually agreed **15 native Circle USDC (Base) approximately one-page technical evidence note**, not investment advice. Inputs: reply email (only to coordinate the request), two PUBLIC official vault/protocol document URLs, ONE hypothetical/public technical question, non-binding preference for a 15 USDC scoped report or 0/free, and a separately unchecked mandatory FormSubmit data-transfer consent. No actual balance, address, seed, private transaction, ID document, wallet connection, signing, gas or payment is requested. The third-party FormSubmit service may process sender metadata, and a normal human verification may be required. Sender identity and report permission must be verified before accepting. A request/redirect isn't a purchase, settlement or signed service contract. The corresponding /quote/thanks/ routes are noindex and do NOT claim delivery. The operator must separately agree price, permitted AI use, owner legal status, scope, license/IP, acceptance, cancellation/refund and lawful Base-USDC payment **before** collecting money or delivering bespoke work. Real unrelated gross USDC receipts and separately approved unpaid bounties are not payments of this service.
+
 ## Test and publication
 
 \`\`\`bash
