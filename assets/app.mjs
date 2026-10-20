@@ -25,8 +25,12 @@ const labels=ko?{
   copied:'공개 팁 수령 주소를 복사했습니다. 결제나 서명은 발생하지 않았습니다.',
   copyFail:'이 브라우저에서는 복사할 수 없습니다. 주소를 직접 확인하세요.',
   required:'필수 숫자를 입력하세요.',
+  reserveFail:'비상예비금 부적합: 입력한 이동 지연 또는 출금 잠금 때문에 즉시 인출할 수 있다고 볼 수 없습니다. 계산된 수익이 양수라도 현금처럼 취급하지 마세요.',
+  reserveUnknown:'출금 가능성 미확인: 입력 지연·잠금이 0일지라도 대량 인출·사용률 급증·예치 중지·디페깅 상황에서 원금을 즉시 회수할 수 있는지는 계산기로 증명할 수 없습니다.',
   flags:{
     NO_POSITIVE_APY_SPREAD:'후보 APY가 현재 APY보다 높지 않아 수익 차이만으로는 비용을 회수할 수 없습니다.',
+    RESERVE_CANNOT_EXIT_ON_DEMAND_BY_ASSUMPTIONS:'비상예비금 조건과 입력한 이동 지연·출금 잠금이 충돌합니다. 실제 수익률보다 필요한 당일 인출 조건을 우선 확인하세요.',
+    RESERVE_STRESS_REDEMPTION_UNVERIFIED:'정상일 즉시 출금 약속은 시장 스트레스 시 출금 가능성을 보장하지 않습니다.',
     NEW_APY_DEPENDS_ON_REWARD_TOKEN:'후보 수익 일부는 보상 토큰/인센티브에 의존합니다. 지급 중단·가격 하락을 확인하세요.',
     INCENTIVES_HAIRCUT_ESTIMATED:'인센티브 실현율은 사용자가 가정한 값이지 실제 지급 보증이 아닙니다.',
     BRIDGE_RISK_NOT_MODELED:'브리지 비용 외에 최종성·메시지 실패·컨트랙트 위험은 계산하지 않습니다.',
@@ -63,8 +67,12 @@ const labels=ko?{
   copied:'Public tip recipient copied. No wallet signature or payment occurred.',
   copyFail:'Clipboard unavailable; inspect the public address yourself.',
   required:'Enter all required numbers.',
+  reserveFail:'NOT CASH-LIKE under your own inputs: moving or locking this emergency reserve prevents modeled immediate access, even if net yield is positive. Do not treat this as spendable cash.',
+  reserveUnknown:'REAL LIQUIDITY UNVERIFIED: even zero assumed delay or lock does NOT prove redemption during stress, utilization spikes, a pause, depeg or queue. Check original vault terms.',
   flags:{
     NO_POSITIVE_APY_SPREAD:'Candidate effective APY is not higher. Higher yield cannot repay these switching costs under the model.',
+    RESERVE_CANNOT_EXIT_ON_DEMAND_BY_ASSUMPTIONS:'Your emergency-reserve requirement conflicts with the modeled bridge, cooldown or vault lock. Verify needed-day liquidity first.',
+    RESERVE_STRESS_REDEMPTION_UNVERIFIED:'A normal-day instant withdrawal promise is not a stress-time liquidity guarantee.',
     NEW_APY_DEPENDS_ON_REWARD_TOKEN:'A share of the candidate APY is a token incentive. Check emission duration and token price exposure.',
     INCENTIVES_HAIRCUT_ESTIMATED:'The reward haircut is your assumption, not a guaranteed real-world payout.',
     BRIDGE_RISK_NOT_MODELED:'Bridge completion, contract and message risks are not priced by the fee calculator.',
@@ -89,10 +97,12 @@ const editFields=INPUT_FIELDS.map(key=>({key,el:document.querySelector('[data-in
 
 function fill(values) {
   for(const {key,el} of editFields)if(el)el.value=values[key]??DEFAULTS[key];
+  $('reserve-required').checked=values.reserveRequired===true;
 }
 function read() {
   const x={};
   for(const {key,el} of editFields)x[key]=el.value;
+  x.reserveRequired=$('reserve-required').checked;
   return x;
 }
 function fillText(id,str){$(id).textContent=str;}
@@ -138,6 +148,10 @@ function recalc(){
     fillText('rate-target',percent(result.destinationModeledApyPct));
     fillText('stress',dollars(result.conservativeRewardDrop.netAdvantageUsd));
     fillText('locked',result.horizon.withdrawableUnderAssumedLock?labels.lockOk:labels.lockNo);
+    $('reserve-warning').hidden=!result.reserveRequired;
+    if(result.reserveRequired)fillText('reserve-warning',
+      result.reserveLiquidityVerdict==='FAILS_USER_INSTANT_ACCESS_ASSUMPTIONS'
+        ?labels.reserveFail:labels.reserveUnknown);
     fillText('cost-detail',Object.entries(result.fees).map(([k,v])=>k+': '+amount(v)).join(' • '));
     fillText('horizon',result.inputHorizonDays+' '+labels.days);
     displayCharts(result);render(result.riskFlags);
@@ -156,6 +170,7 @@ for(const {el} of editFields){
   if(!el)continue;
   el.addEventListener('change',recalc);
 }
+$('reserve-required').addEventListener('change',recalc);
 $('example-low-cost').addEventListener('click',()=>{
   fill(DEFAULTS);recalc();
 });

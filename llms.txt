@@ -12,3 +12,5 @@ IMPORTANT: User-entered, constant simple annualized APYs are NOT live rates, for
 Optional one-owner 15 USDC scoped report: inquiry only; requires agreed scope before any payment. Optional public wallet tip is NOT an API sale. No independently verified sales of this report yet.
 
 Buyer opt-in scope-only report inquiry: https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/quote/ . No payment until separately agreed terms. Optional external FormSubmit service handles reply email and public links only with consent; no user wallet/private balances.
+
+Emergency cash reserve opt-in: flags assumed bridge/earn delay or destination withdrawal lock as incompatible with instant access, even if a rate calculation is positive. Zero assumed delay cannot establish on-demand redemption during stress. No wallet or real portfolio data, no investment advice.

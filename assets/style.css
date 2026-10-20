@@ -38,6 +38,11 @@ header nav .switch{padding:8px 13px;border:1px solid #668e7e;border-radius:8px}
 .field input::-webkit-inner-spin-button{appearance:none}
 .field .suffix{font:700 11px ui-monospace,monospace;color:#8fb7a9;padding:0 12px 0 6px}
 .divider{height:1px;background:#345452;margin-top:22px}
+.reserve-checkbox{display:flex;gap:13px;padding:13px;margin:13px 0 18px;background:#153633;border:1px solid #628679;border-radius:10px;font-size:12px;line-height:1.6;color:#d7e9df;align-items:start;cursor:pointer}
+.reserve-checkbox strong{color:white}.reserve-checkbox input{flex:none;margin-top:4px;width:18px;height:18px;accent-color:#a4ecc3}
+.reserve-warning{margin:16px 24px;padding:8px 14px 8px 16px;border-left:3px solid #ffa881;color:#ffdbc6;font-size:12px;font-weight:650;line-height:1.6}
+.reserve-warning[hidden]{display:none}
+
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}
 button,.button{border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:10px;padding:11px 16px;font-weight:750;font-size:12px;line-height:1.4;font-family:inherit;transition:background .15s,color .15s}
 button.primary,.button.primary{background:var(--mint);color:#062320;font-weight:800}

@@ -13,7 +13,7 @@ export const DEFAULTS=Object.freeze({
   principal:10000,currentBaseApy:3,currentRewardApy:0,
   targetBaseApy:4.5,targetRewardApy:1,rewardRealizationPct:50,
   gasUsd:2,bridgeUsd:0,swapUsd:4,exitUsd:1,
-  futureExitUsd:2,slippageBps:15,delayDays:2,lockDays:0,horizonDays:90
+  futureExitUsd:2,slippageBps:15,delayDays:2,lockDays:0,horizonDays:90,reserveRequired:false
 });
 const LIMITS=Object.freeze({
   principal:[0.01,1000000000],
@@ -38,6 +38,9 @@ export function validateInputs(input){
       throw new CalculatorError('OUT_OF_RANGE',field);
     result[field]=n;
   }
+  if(input.reserveRequired!==undefined && typeof input.reserveRequired!=='boolean')
+    throw new CalculatorError('INVALID_RESERVE_REQUIREMENT','reserveRequired');
+  result.reserveRequired=input.reserveRequired===true;
   return result;
 }
 export function evaluateHorizon(x,days,totalFees,currentApy,targetApy) {
@@ -50,7 +53,7 @@ export function evaluateHorizon(x,days,totalFees,currentApy,targetApy) {
     targetYieldUsd:money(destinationYield),
     extraYieldBeforeCostsUsd:money(destinationYield-currentYield),
     netAdvantageUsd:money(destinationYield-currentYield-totalFees),
-    withdrawableUnderAssumedLock:days>=x.lockDays
+    withdrawableUnderAssumedLock:days>=x.delayDays+x.lockDays
   };
 }
 export function evaluate(input){
@@ -86,7 +89,11 @@ export function evaluate(input){
     flags.push('INCENTIVES_HAIRCUT_ESTIMATED');
   if(x.bridgeUsd>0)flags.push('BRIDGE_RISK_NOT_MODELED');
   if(x.lockDays>0)flags.push('LOCK_AND_WITHDRAWAL_EXIT_CONDITIONS');
-  if(x.lockDays>x.horizonDays)flags.push('CANNOT_EXIT_BY_HORIZON');
+  if(x.lockDays+x.delayDays>x.horizonDays)flags.push('CANNOT_EXIT_BY_HORIZON');
+  if(x.reserveRequired){
+    if(x.lockDays>0 || x.delayDays>0)flags.push('RESERVE_CANNOT_EXIT_ON_DEMAND_BY_ASSUMPTIONS');
+    flags.push('RESERVE_STRESS_REDEMPTION_UNVERIFIED');
+  }
   if(x.delayDays>=x.horizonDays)flags.push('NO_TARGET_EARNING_DAYS');
   if(x.slippageBps>=25)flags.push('PRICE_IMPACT_SENSITIVE');
   if(totalFees>=principal)flags.push('COSTS_EXCEED_PRINCIPAL');
@@ -106,6 +113,9 @@ export function evaluate(input){
     totalEstimatedCostsUsd:money(totalFees),
     inputHorizonDays:x.horizonDays,
     cooldownDays:x.delayDays,assumedLockDays:x.lockDays,
+    reserveRequired:x.reserveRequired,
+    reserveLiquidityVerdict:!x.reserveRequired?'NOT_REQUESTED':
+      x.delayDays>0 || x.lockDays>0?'FAILS_USER_INSTANT_ACCESS_ASSUMPTIONS':'UNKNOWN_REAL_REDEMPTION',
     breakEvenDays:breakEven,
     horizon:selected,
     conservativeRewardDrop:conservative,

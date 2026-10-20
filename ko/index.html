@@ -72,6 +72,7 @@
 <div class="input-wrap"><input id="i-slippageBps" data-input="slippageBps" type="number" inputmode="decimal" autocomplete="off" step="any" value="15" required aria-describedby="help-slippageBps"><span class="suffix">bps</span></div>
 <span id="help-slippageBps" class="help">100bps=1%, 이동 원금에 적용</span></div></div>
 <div class="divider"></div><h3>03 / 출금 제약과 평가 기간</h3><p class="small">수익 미발생 지연과 출금 잠금은 서로 다릅니다.</p>
+<label class="reserve-checkbox" for="reserve-required"><input type="checkbox" id="reserve-required" autocomplete="off"><span><strong>이 자금은 즉시 인출할 수 있어야 하는 비상예비금입니다.</strong> 수익 계산이 플러스여도 출금 지연·락업은 별도로 경고합니다. 실제 인출 가능성은 보장하지 않습니다.</span></label>
 <div class="field-grid"><div class="field"><label for="i-delayDays">새 수익이 없는 이동 기간</label>
 <div class="input-wrap"><input id="i-delayDays" data-input="delayDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-delayDays"><span class="suffix">days</span></div>
 <span id="help-delayDays" class="help">이동·대기 때문에 후보 수익이 발생하지 않는 기간</span></div>
@@ -90,6 +91,7 @@
 <aside class="panel results" aria-label="가정 기반 전환 결과">
 <div class="result-top"><span class="eyebrow" id="net-label">추정 순변화</span>
 <div id="net-change" class="delta neutral">—</div><p id="net-explain">모든 수치는 입력한 USD 가치·APY의 가상 시나리오입니다.</p></div>
+<p id="reserve-warning" class="reserve-warning" role="status" aria-live="polite" hidden></p>
 <div class="metric-grid">
 <div class="metric"><span>손익분기점</span><strong id="break-even">—</strong></div>
 <div class="metric"><span>추정 총 이동 비용</span><strong id="friction">—</strong></div>
@@ -104,7 +106,7 @@
 <div class="disclosure"><strong>계산기만으로 증명하지 못하는 위험</strong><ul id="flags"></ul></div>
 </aside>
 </div>
-<section class="section" id="method"><h2>계산 방법</h2><p class="intro">두 예치처의 연간 가정 수익률을 단리로 비교합니다. 후보는 입력한 이동 지연 동안 수익이 발생하지 않는 것으로 두고, 가스·브리지·스왑·출금·향후 출금·가격 영향 비용을 차감합니다. 보상 토큰 실현 비율은 0~100%로 조절하며 복리·세금은 계산하지 않습니다.</p>
+<section class="section" id="method"><h2>계산 방법</h2><p class="intro">두 예치처의 연간 가정 수익률을 단리로 비교합니다. 후보는 입력한 이동 지연 동안 수익이 발생하지 않는 것으로 두고, 가스·브리지·스왑·출금·향후 출금·가격 영향 비용을 차감합니다. 보상 토큰 실현 비율은 0~100%로 조절하며 복리·세금은 계산하지 않습니다. <strong>비상예비금이라면 위 체크박스를 선택하세요.</strong> 수익 차이가 플러스여도 이동·출금 지연이 있으면 별도 경고합니다. 대기 시간이 0이어도 실제 위기 시 유동성은 검증되지 않습니다.</p>
 <div class="sidelist">
 <article class="card"><h3>실제 APY는 해당 프로토콜과 원문에서 확인</h3><p>이 무료 계산기는 실시간 APY API를 호출하지 않습니다. 조회 사이트 수치는 검토의 출발점일 뿐 감사·수익 보장이 아닙니다.</p>
 <p><a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer">독립 수익률 자료 보기 ↗</a></p>

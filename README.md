@@ -14,6 +14,14 @@ An entirely browser-local, no-wallet, no-account APY/fee sensitivity calculator.
 
 These are **public demand signals**, not proof that this new tool has paid customers, referrals, meaningful traffic, or that anybody is willing to pay for our research.
 
+## Actual independent user pain addressed in the v0.1.1 reserve check
+
+In an [independent r/defi discussion about a hypothetical $10,000 USDC emergency cash reserve](https://www.reddit.com/r/defi/comments/1vtfy6n/if_you_kept_10000_in_stablecoins_as_a_cash/), unrelated commenters explicitly distinguish **cash accessible on the day it is needed** from a locked investment. That is genuine problem context, **not evidence anyone used or paid for our product**. We did not contact, impersonate, or solicit any participant or reuse their actual wallet information.
+
+The optional (unchecked by default) **'I must access this emergency cash reserve on demand'** box never connects a wallet. When a hypothetical bridge/cooldown takes days, or the destination vault has an assumed lockup, it **FAILS the user's instant-access constraint** regardless of whether the modeled 90-day yield advantage is positive. When the inputs assume zero delay and zero lock, the result says **real stress-time redemption remains UNKNOWN**. Withdrawal conditions, market utilization, ability to redeem at par, stablecoin pegs, chain finality, and smart-contract pause controls must be confirmed from authoritative protocol sources. The checkbox is not a yes/no safety certification, yield recommendation or actual risk score.
+
+We also corrected the withdrawableUnderAssumedLock calculation to count the **total time until possible target exit as bridge/cooldown delay + post-deposit lockup**, rather than just the latter. The numeric yield break-even formula is unchanged and is still a simplified, hypothetical simple-annual-interest comparison. See tests/reserve-liquidity.test.mjs for eight extra independently reproducible fail-closed cases. The tool does not know actual reserve eligibility or a person's finances.
+
 ## Local-only calculation
 
 User enters hypothetical USD principal, current and destination base/reward APY, reward haircut, gas, bridge/swap/exit costs, slippage bps, earning delay, withdrawal lock and decision horizon.

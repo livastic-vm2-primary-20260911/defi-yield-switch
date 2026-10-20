@@ -72,6 +72,7 @@
 <div class="input-wrap"><input id="i-slippageBps" data-input="slippageBps" type="number" inputmode="decimal" autocomplete="off" step="any" value="15" required aria-describedby="help-slippageBps"><span class="suffix">bps</span></div>
 <span id="help-slippageBps" class="help">100 bps = 1%. Applied to original principal.</span></div></div>
 <div class="divider"></div><h3>03 / Liquidity and horizon</h3><p class="small">Earning delay is time without target yield; lockup marks potential inability to withdraw, not lost APY.</p>
+<label class="reserve-checkbox" for="reserve-required"><input type="checkbox" id="reserve-required" autocomplete="off"><span><strong>I must access this money on demand: emergency cash reserve.</strong> Even a positive net yield cannot offset a modeled lock or withdrawal delay. Real redemption is never guaranteed.</span></label>
 <div class="field-grid"><div class="field"><label for="i-delayDays">Days without new yield</label>
 <div class="input-wrap"><input id="i-delayDays" data-input="delayDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-delayDays"><span class="suffix">days</span></div>
 <span id="help-delayDays" class="help">Bridge, cooldown, waiting before earning.</span></div>
@@ -90,6 +91,7 @@
 <aside class="panel results" aria-label="Your modeled switch">
 <div class="result-top"><span class="eyebrow" id="net-label">Estimated net difference</span>
 <div id="net-change" class="delta neutral">—</div><p id="net-explain">All values are hypothetical USD estimates.</p></div>
+<p id="reserve-warning" class="reserve-warning" role="status" aria-live="polite" hidden></p>
 <div class="metric-grid">
 <div class="metric"><span>Fee break-even</span><strong id="break-even">—</strong></div>
 <div class="metric"><span>Estimated total friction</span><strong id="friction">—</strong></div>
@@ -104,7 +106,7 @@
 <div class="disclosure"><strong>What the calculator cannot certify</strong><ul id="flags"></ul></div>
 </aside>
 </div>
-<section class="section" id="method"><h2>How the numbers work</h2><p class="intro">We compare two simple annualized hypothetical interest streams. The candidate earns nothing during your specified delay. We subtract your USD gas, bridge, swap, withdrawal, future exit and price-impact estimates. Reward incentives can be haircut from 0 to 100%. No compounding or tax treatment is modeled.</p>
+<section class="section" id="method"><h2>How the numbers work</h2><p class="intro">We compare two simple annualized hypothetical interest streams. The candidate earns nothing during your specified delay. We subtract your USD gas, bridge, swap, withdrawal, future exit and price-impact estimates. Reward incentives can be haircut from 0 to 100%. No compounding or tax treatment is modeled. <strong>For an emergency cash reserve, select the checkbox above.</strong> A positive net yield does not override a modeled bridge or lockup delay, and zero modeled delay cannot prove stress-time redemption.</p>
 <div class="sidelist">
 <article class="card"><h3>Check rates at the source — not here</h3><p>This free calculator intentionally has no market-rate API. A source dashboard is a starting point, not a guarantee or an audit.</p>
 <p><a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer">Browse independent live yield data ↗</a></p>
