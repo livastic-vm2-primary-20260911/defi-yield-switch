@@ -86,3 +86,20 @@ test('original financial arithmetic remains purely local, never sends form input
   const app=read('assets/app.mjs');
   assert(!/fetch\(|XMLHttpRequest|sendBeacon|window\.ethereum|eth_sendTransaction/.test(app));
 });
+
+test('optional Google Forms is linked and does not bypass or disable FormSubmit CAPTCHA',()=>{
+ const link='https://docs.google.com/forms/d/e/1FAIpQLSfeHc1NjI7ZdpE1BHuGSDJKRtXS0aN-kaBvB2W2UNWegthMDQ/viewform';
+ for(const x of langs){
+  const html=read(x.form);
+  assert(html.includes('href="'+link+'" target="_blank" rel="noopener noreferrer"'));
+  assert(html.includes('action="https://formsubmit.co/onecursor1@gmail.com"'));
+  assert(html.includes('form-action https://formsubmit.co;'));
+  assert(!html.includes('action="'+link+'"'));
+  assert(!/sendBeacon|document\.cookie|\bfetch\(/.test(html));
+ }
+ const readme=read('README.md');
+ assert(readme.includes(link));
+ assert(readme.includes('does **not** collect email automatically'));
+ assert(readme.includes('reCAPTCHA'));
+ assert(readme.includes('delivery was not established'));
+});
