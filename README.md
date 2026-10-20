@@ -30,17 +30,19 @@ The new EN/KO **Small $20 fee trap** button inserts a *fictional* variant of the
 
 ## Local-only calculation
 
-User enters hypothetical USD principal, current and destination base/reward APY, reward haircut, gas, bridge/swap/exit costs, slippage bps, earning delay, withdrawal lock and decision horizon.
+User enters hypothetical USD principal, current and destination base/reward APY, reward haircut, ordinary gas, separate token approval/allowance adjustment/revocation gas, bridge/swap/exit costs, slippage bps, earning delay, withdrawal lock and decision horizon.
 
 The calculator models annual *simple* APY, not compounding:
 
 - Stay: \`principal * currentAssumedAPY * horizonDays / 36500\`
 - Move: \`principal * targetAssumedAPY * max(0,horizonDays-delayDays) / 36500 - totalCosts\`
 - Difference: move minus stay.
-- \`totalCosts = gas + bridge + swap + oldExit + futureExit + principal * slippageBps / 10000\`.
+- \`totalCosts = ordinaryGas + approvalsAndRevocationsGas + bridge + swap + oldExit + futureExit + principal * slippageBps / 10000\`.
 - If the APY spread is positive, costs are recovered after \`ceil((36500*costs/principal + targetApy*delayDays)/(targetApy-currentApy))\` days; otherwise no finite fee break-even under these assumptions.
 
 Rate haircuts are *user-entered* hypotheses. No live vault data, oracle data, wallet addresses, keys, cookies, tracking or network fetch. The site's Content Security Policy has \`connect-src 'none'\`. Calculated JSON is downloaded only after clicking the button, excludes user wallet addresses and never uploads.
+
+**A practical cost often missed: ERC-20 approval and revoke transactions.** For a standalone readable walkthrough in English and Korean, see /allowance-gas/ and /ko/allowance-gas/ on the public tool website.  A publicly documented October 2026 DeFi user explicitly pointed out that a small swap may require a broad token allowance and later gas to revoke it (source: https://www.reddit.com/r/defi/comments/1x77646/what_frustrated_you_most_when_using_defi/). The input \`allowanceLifecycleUsd\` is the user's total expected EXTRA approval, allowance adjustment and later revoke gas in USD (default $0), explicitly EXCLUDING fees already included in ordinary \`gasUsd\` to avoid double-counting. Adding $5 to $10 other costs on a fictional $1,000 position with +5pp annualized yield moves modeled break-even from 73 to **110 days**. **Critical:** the model does NOT inspect allowances, verify spenders, revoke approvals or assess unlimited allowance exploitation risk. It never asks you to connect a wallet. Check actual token allowances and spender contracts independently before signing.
 
 This is not a strategy recommendation, yield forecast, safety certification, financial advice or tax advice. Exit liquidity, smart-contract loss, collateral liquidation, stablecoin depeg, reward token pricing and protocol restrictions can dwarf the modeled small yield advantage. The operator does not audit protocols. **Do not transfer any crypto based only on this model**.
 

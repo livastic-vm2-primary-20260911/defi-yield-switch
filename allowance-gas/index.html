@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081a1c">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'none'; form-action 'none'; object-src 'none'; base-uri 'none'">
+<meta name="description" content="Estimate token allowance setup and revocation gas in a vault-switch decision. Understand how allowance risk differs from gas fees. No wallet connection."><title>DeFi token approval and revoke gas: the switching cost APY comparisons miss | DeFi Switch Lab</title>
+<link rel="canonical" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/allowance-gas/">
+<link rel="alternate" hreflang="en" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/allowance-gas/">
+<link rel="alternate" hreflang="ko" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/allowance-gas/">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.guide{padding:62px 0 82px;max-width:840px}.guide h1{font-size:clamp(30px,5vw,56px);line-height:1.1;letter-spacing:-.06em;margin:20px 0}
+.guide .intro{max-width:750px;color:#bedcca;font-size:16px}
+.guide section{background:#102f2f;border:1px solid #416a61;padding:24px;border-radius:13px;margin:19px 0}
+.guide h2{font-size:23px;letter-spacing:-.03em;margin-top:0}
+.guide p,.guide li{color:#bfdcca;font-size:14px}
+.guide li{margin:9px 0}
+.guide a{color:#b4f0c9}
+.guide table{width:100%;border-collapse:collapse;font-size:13px}
+.guide table td,.guide table th{border-bottom:1px solid #50746a;padding:12px 8px;text-align:left}
+.guide table th{font-weight:750;color:#c1fbdc}
+.guide .button-row{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0}
+.guide .button-row a{padding:12px 16px;border:1px solid #7db39a;border-radius:9px;text-decoration:none;font-weight:750}
+@media(max-width:600px){.guide{padding:32px 0 65px}.guide section{padding:17px}.guide table{font-size:11px}}
+</style></head>
+<body>
+<header><div class="wrap header-inner"><a class="brand" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/"><span class="logo">Δ</span> DeFi Switch Lab</a><nav><a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">Free calculator</a><a class="switch" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/allowance-gas/">한국어</a></nav></div></header>
+<main class="wrap guide"><span class="pill">DEFI REAL-WORLD FRICTION • NO WALLET CONNECT</span>
+<h1>Token approvals cost gas. Unlimited allowance risks more.</h1><p class="intro">Swapping or depositing ERC-20 tokens may require a spender contract to be approved first. Later changing or revoking permissions can require additional transactions. A higher APY may not recover those costs, especially on a small position.</p>
+<section><h2>A transparent $1,000 hypothetical</h2><p>Suppose a $1,000 vault earns 5% annualized and a proposed vault earns 10%. The move already costs $10 in ordinary gas and fees. If changing token allowance and later revoking unused spending permission costs another estimated $5, the modeled all-in friction is $15.</p>
+<div style="overflow-x:auto"><table><thead><tr><th scope="col">Scenario</th><th scope="col">Estimated switch costs</th><th scope="col">Break-even at +5pp/year</th></tr></thead>
+<tbody><tr><td>Ordinary gas/fees only</td><td>$10</td><td>73 days</td></tr><tr><td>Plus estimated approval/revoke gas</td><td>$15</td><td>110 days</td></tr></tbody></table></div>
+<p>These values are fictional simple-interest inputs. Revocation may happen later rather than at move time, and actual approval/revoke gas depends on chain, token and wallet actions. Budgeting its full amount conservatively does not mean it has already been spent.</p>
+</section>
+<section><h2>The risk is not just a fee</h2><ul><li>ERC-20 allowance authorizes a specific spender to transfer tokens up to an allowed amount. The approved spender is not the same as the wallet address or the destination vault.</li><li>An unlimited allowance can create exposure far larger than a $1–$5 gas estimate. This calculator does not inspect, prove or revoke permissions, distinguish malicious spenders, simulate contracts or issue any token transaction.</li><li>Some token contracts and spender flows differ from plain ERC-20 behavior. Before making an actual transaction, independently verify network, token contract, spender, requested amount and revocation semantics.</li><li>If an approval fee is already included in your gas field, leave the extra field at $0. Do not double count it.</li></ul></section>
+<div class="button-row">
+<a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">Try the free yield-switch calculator with an allowance cost ↗</a>
+<a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/feedback/">Report a missing fee or revocation scenario (opt-in) ↗</a>
+</div>
+<section><h2>Relevant original references</h2>
+<ul><li><a href="https://eips.ethereum.org/EIPS/eip-20" target="_blank" rel="noopener noreferrer">ERC-20 standard: approve, allowance and transferFrom (EIP-20) ↗</a></li>
+<li><a href="https://ethereum.org/developers/tutorials/erc20-annotated-code/" target="_blank" rel="noopener noreferrer">Ethereum.org: worked example of ERC-20 approvals ↗</a></li>
+<li><a href="https://www.reddit.com/r/defi/comments/1x77646/what_frustrated_you_most_when_using_defi/" target="_blank" rel="noopener noreferrer">Independent DeFi-user discussion about unlimited allowances ↗</a></li></ul>
+</section><p>AI-assisted original worked example, not an audit, investment recommendation, current gas quote, or user testimonial. There are no verified paid users of this specific tool.</p>
+</main><footer><div class="wrap">DeFi Switch Lab · 2026 · <a href="https://github.com/livastic-vm2-primary-20260911/defi-yield-switch" target="_blank" rel="noopener noreferrer">MIT source ↗</a></div></footer>
+</body></html>

@@ -32,6 +32,7 @@ test('no new email, wallet, private balance, transaction hash or actual CSV fiel
   for(const x of langs){
     const s=read(x.form);
     assert(s.includes('name="biggest_obstacle" required'));
+    assert(s.includes('<option value="token_allowance_gas_revoke">'));
     assert(s.includes('name="frequency" required'));
     assert(s.includes('name="nonbinding_willingness_to_pay_usdc" required'));
     assert(s.includes('name="synthetic_technical_example" maxlength="260"'));
@@ -70,7 +71,7 @@ test('provider redirects are not indexed and are NEVER treated as proof of deliv
 });
 test('site map references only useful content and excludes potentially misleading thanks redirects',()=>{
   const x=read('sitemap.xml');
-  assert.equal((x.match(/<loc>/g)||[]).length,8);
+  assert.equal((x.match(/<loc>/g)||[]).length,10);
   assert(x.includes('https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/feedback/'));
   assert(x.includes('https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/feedback/'));
   assert(!x.includes('/feedback/thanks/'));

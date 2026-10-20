@@ -101,7 +101,7 @@ test('buyer CTA links to the new real no-wallet scope form, not a failing mailto
 });
 test('sitemap lists 8 actual indexable routes, excludes quote and feedback confirmation pages',()=>{
  const s=read('sitemap.xml');
- assert.equal((s.match(/<loc>/g)||[]).length,8);
+ assert.equal((s.match(/<loc>/g)||[]).length,10);
  assert(s.includes(base+'quote/'));
  assert(s.includes(base+'ko/quote/'));
  assert(!s.includes('/quote/thanks/'));

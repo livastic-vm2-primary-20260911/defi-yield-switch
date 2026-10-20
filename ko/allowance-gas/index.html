@@ -1,0 +1,45 @@
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081a1c">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'none'; form-action 'none'; object-src 'none'; base-uri 'none'">
+<meta name="description" content="ERC-20 토큰 사용 승인·철회에 필요한 가스비를 예치처 변경 손익분기점에 반영하는 무료 가이드. 지갑 연결·서명 없음."><title>DeFi 토큰 사용 승인·철회 가스비: APY 비교에서 빠지는 비용 | DeFi Switch Lab</title>
+<link rel="canonical" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/allowance-gas/">
+<link rel="alternate" hreflang="en" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/allowance-gas/">
+<link rel="alternate" hreflang="ko" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/allowance-gas/">
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+.guide{padding:62px 0 82px;max-width:840px}.guide h1{font-size:clamp(30px,5vw,56px);line-height:1.1;letter-spacing:-.06em;margin:20px 0}
+.guide .intro{max-width:750px;color:#bedcca;font-size:16px}
+.guide section{background:#102f2f;border:1px solid #416a61;padding:24px;border-radius:13px;margin:19px 0}
+.guide h2{font-size:23px;letter-spacing:-.03em;margin-top:0}
+.guide p,.guide li{color:#bfdcca;font-size:14px}
+.guide li{margin:9px 0}
+.guide a{color:#b4f0c9}
+.guide table{width:100%;border-collapse:collapse;font-size:13px}
+.guide table td,.guide table th{border-bottom:1px solid #50746a;padding:12px 8px;text-align:left}
+.guide table th{font-weight:750;color:#c1fbdc}
+.guide .button-row{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0}
+.guide .button-row a{padding:12px 16px;border:1px solid #7db39a;border-radius:9px;text-decoration:none;font-weight:750}
+@media(max-width:600px){.guide{padding:32px 0 65px}.guide section{padding:17px}.guide table{font-size:11px}}
+</style></head>
+<body>
+<header><div class="wrap header-inner"><a class="brand" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/"><span class="logo">Δ</span> DeFi Switch Lab</a><nav><a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">무료 계산기</a><a class="switch" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/allowance-gas/">English</a></nav></div></header>
+<main class="wrap guide"><span class="pill">실제 DEFI 사용자의 불편 • 지갑 연결 없음</span>
+<h1>토큰 사용 승인은 가스비가 듭니다. 무제한 승인은 별도의 위험입니다.</h1><p class="intro">ERC-20 토큰을 스왑하거나 예치할 때 먼저 spender 계약에 사용 권한을 부여할 수 있습니다. 나중에 권한 한도를 변경하거나 철회할 때 추가 거래 비용이 들 수 있습니다. 소액 예치에는 이 비용이 높은 APY의 이익보다 클 수 있습니다.</p>
+<section><h2>가상 원금 1,000달러 비교</h2><p>현재 수익률 연 5%, 후보 수익률 연 10%인 1,000달러짜리 가상 예치처를 생각해 보세요. 일반 이동 비용이 10달러이고, 승인·철회 가스비로 5달러를 추가 예상하면 총 전환 비용은 15달러입니다.</p>
+<div style="overflow-x:auto"><table><thead><tr><th scope="col">가상 상황</th><th scope="col">총 예상 전환 비용</th><th scope="col">APY 차이 +5%p 비용 회수일</th></tr></thead>
+<tbody><tr><td>일반 이동 비용만 포함</td><td>$10</td><td>73일</td></tr><tr><td>승인·철회 가스비 추가</td><td>$15</td><td>110일</td></tr></tbody></table></div>
+<p>이 계산은 가상의 단리 가정입니다. 실제 승인 철회는 이동 훨씬 나중에 할 수 있고, 비용은 체인·토큰·지갑 거래에 따라 달라집니다. 예상 비용을 미리 반영하는 것은 실제로 이미 지출했다는 뜻이 아닙니다.</p>
+</section>
+<section><h2>위험은 가스비만이 아닙니다</h2><ul><li>ERC-20 allowance는 특정 spender가 정해진 한도까지 토큰을 이전할 수 있도록 허용하는 권한입니다. spender의 신원은 내 지갑 주소나 목적지 볼트와 다를 수 있습니다.</li><li>무제한 토큰 권한은 단순 가스비 예상액보다 훨씬 큰 손실 위험을 만들 수 있습니다. 이 계산기는 실제 승인 현황을 조회·검증·철회하지 않으며 거래 서명도 하지 않습니다.</li><li>실제 계약마다 승인 방식과 revocation 조건이 다를 수 있습니다. 송금 전에 체인·토큰 공식 계약·spender·권한 한도·철회 방법을 신뢰할 수 있는 공식 자료에서 따로 확인하세요.</li><li>기존 일반 가스비 입력에 승인 수수료가 포함돼 있다면 추가 입력값은 0달러로 두세요. 비용을 중복 집계하지 마세요.</li></ul></section>
+<div class="button-row">
+<a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">승인·철회 비용을 직접 입력하고 무료 계산하기 ↗</a>
+<a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/feedback/">빠진 비용·권한 철회 문제 알려주기 (선택형 설문) ↗</a>
+</div>
+<section><h2>확인 가능한 기술 원문</h2>
+<ul><li><a href="https://eips.ethereum.org/EIPS/eip-20" target="_blank" rel="noopener noreferrer">ERC-20 표준: approve, allowance, transferFrom (EIP-20) ↗</a></li>
+<li><a href="https://ethereum.org/developers/tutorials/erc20-annotated-code/" target="_blank" rel="noopener noreferrer">Ethereum.org: ERC-20 사용 승인 구현 설명 ↗</a></li>
+<li><a href="https://www.reddit.com/r/defi/comments/1x77646/what_frustrated_you_most_when_using_defi/" target="_blank" rel="noopener noreferrer">실제 DeFi 커뮤니티의 무제한 승인 불편 의견 ↗</a></li></ul>
+</section><p>AI 보조 개발 사실을 공개하는 가상 사례입니다. 보안 감사·투자 추천·실시간 가스비 견적 또는 실제 고객 후기가 아닙니다. 이 도구를 구매한 고객의 독립적인 결제는 확인되지 않았습니다.</p>
+</main><footer><div class="wrap">DeFi Switch Lab · 2026 · <a href="https://github.com/livastic-vm2-primary-20260911/defi-yield-switch" target="_blank" rel="noopener noreferrer">MIT source ↗</a></div></footer>
+</body></html>

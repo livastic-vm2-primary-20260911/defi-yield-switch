@@ -6,20 +6,20 @@
  */
 export const INPUT_FIELDS=Object.freeze([
   'principal','currentBaseApy','currentRewardApy','targetBaseApy',
-  'targetRewardApy','rewardRealizationPct','gasUsd','bridgeUsd','swapUsd',
+  'targetRewardApy','rewardRealizationPct','gasUsd','allowanceLifecycleUsd','bridgeUsd','swapUsd',
   'exitUsd','futureExitUsd','slippageBps','delayDays','lockDays','horizonDays'
 ]);
 export const DEFAULTS=Object.freeze({
   principal:10000,currentBaseApy:3,currentRewardApy:0,
   targetBaseApy:4.5,targetRewardApy:1,rewardRealizationPct:50,
-  gasUsd:2,bridgeUsd:0,swapUsd:4,exitUsd:1,
+  gasUsd:2,allowanceLifecycleUsd:0,bridgeUsd:0,swapUsd:4,exitUsd:1,
   futureExitUsd:2,slippageBps:15,delayDays:2,lockDays:0,horizonDays:90,reserveRequired:false
 });
 const LIMITS=Object.freeze({
   principal:[0.01,1000000000],
   currentBaseApy:[0,200],currentRewardApy:[0,200],
   targetBaseApy:[0,200],targetRewardApy:[0,200],
-  rewardRealizationPct:[0,100],gasUsd:[0,100000000],bridgeUsd:[0,100000000],
+  rewardRealizationPct:[0,100],gasUsd:[0,100000000],allowanceLifecycleUsd:[0,100000000],bridgeUsd:[0,100000000],
   swapUsd:[0,100000000],exitUsd:[0,100000000],futureExitUsd:[0,100000000],
   slippageBps:[0,10000],delayDays:[0,3650],lockDays:[0,3650],horizonDays:[1,3650]
 });
@@ -64,6 +64,7 @@ export function evaluate(input){
   const priceImpact=principal*x.slippageBps/10000;
   const fees={
     gasUsd:money(x.gasUsd),
+    allowanceLifecycleUsd:money(x.allowanceLifecycleUsd),
     bridgeUsd:money(x.bridgeUsd),
     swapUsd:money(x.swapUsd),
     oldPositionExitUsd:money(x.exitUsd),
@@ -88,6 +89,8 @@ export function evaluate(input){
   if(x.rewardRealizationPct<100 && (x.targetRewardApy>0||x.currentRewardApy>0))
     flags.push('INCENTIVES_HAIRCUT_ESTIMATED');
   if(x.bridgeUsd>0)flags.push('BRIDGE_RISK_NOT_MODELED');
+  if(x.allowanceLifecycleUsd>0)flags.push('ALLOWANCE_SETUP_AND_REVOKE_COST_MODELED');
+  flags.push('TOKEN_ALLOWANCE_SCOPE_AND_RESIDUAL_APPROVAL_RISK_NOT_MODELED');
   if(x.lockDays>0)flags.push('LOCK_AND_WITHDRAWAL_EXIT_CONDITIONS');
   if(x.lockDays+x.delayDays>x.horizonDays)flags.push('CANNOT_EXIT_BY_HORIZON');
   if(x.reserveRequired){

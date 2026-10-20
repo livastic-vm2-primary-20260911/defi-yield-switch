@@ -7,7 +7,7 @@ import {
 } from '../assets/calculator.mjs';
 
 test('default inputs are complete finite hypothetical numbers',()=>{
-  assert.equal(INPUT_FIELDS.length,15);
+  assert.equal(INPUT_FIELDS.length,16);
   assert.deepEqual(validateInputs(DEFAULTS),DEFAULTS);
 });
 test('zero fees and 5 point positive APY spread pay back immediately',()=>{
@@ -133,4 +133,44 @@ test('real published 2026 small-account unit mistake: 2.53 percentage-point spre
   const extraPerDay=x.principal*(7.3-4.77)/36500;
   assert(Math.ceil(0.5/(0.1*extraPerDay))>=3599);
   assert(Math.ceil(0.5/(0.1*extraPerDay))<=3601);
+});
+
+test('DeFi token approval/revocation costs actually move economic break-even, not just a label',()=>{
+  const values={...DEFAULTS,principal:1000,currentBaseApy:5,targetBaseApy:10,
+    currentRewardApy:0,targetRewardApy:0,rewardRealizationPct:100,
+    gasUsd:10,allowanceLifecycleUsd:0,
+    bridgeUsd:0,swapUsd:0,exitUsd:0,futureExitUsd:0,
+    slippageBps:0,delayDays:0,lockDays:0,reserveRequired:false};
+  const noApproval=evaluate(values);
+  const withApproval=evaluate({...values,allowanceLifecycleUsd:5});
+  assert.equal(noApproval.totalEstimatedCostsUsd,10);
+  assert.equal(noApproval.breakEvenDays,73);
+  assert.equal(withApproval.fees.allowanceLifecycleUsd,5);
+  assert.equal(withApproval.totalEstimatedCostsUsd,15);
+  assert.equal(withApproval.breakEvenDays,110);
+  assert.equal(withApproval.horizon.netAdvantageUsd,
+    Number((noApproval.horizon.netAdvantageUsd-5).toFixed(6)));
+  assert(withApproval.riskFlags.includes('ALLOWANCE_SETUP_AND_REVOKE_COST_MODELED'));
+  assert(withApproval.riskFlags.includes('TOKEN_ALLOWANCE_SCOPE_AND_RESIDUAL_APPROVAL_RISK_NOT_MODELED'));
+});
+test('approval and revoke gas estimates reject invalid, negative and non-finite inputs',()=>{
+  for(const estimate of [undefined,null,-1,Infinity,NaN,'not-money',1e9+1]){
+    assert.throws(()=>evaluate({...DEFAULTS,allowanceLifecycleUsd:estimate}),
+      error=>error instanceof CalculatorError && error.field==='allowanceLifecycleUsd');
+  }
+  assert.equal(evaluate({...DEFAULTS,allowanceLifecycleUsd:0}).fees.allowanceLifecycleUsd,0);
+});
+test('the UI documents token allowance authority is NOT assessed by the fee estimate',()=>{
+  const en=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+  const ko=fs.readFileSync(new URL('../ko/index.html',import.meta.url),'utf8');
+  const app=fs.readFileSync(new URL('../assets/app.mjs',import.meta.url),'utf8');
+  for(const html of [en,ko]){
+    assert(html.includes('id="i-allowanceLifecycleUsd" data-input="allowanceLifecycleUsd"'));
+    assert(html.includes('help-allowanceLifecycleUsd'));
+    assert(html.includes('step="any" value="0"'));
+  }
+  assert(en.includes('avoid double counting') || en.includes('double-count'));
+  assert(ko.includes('중복'));
+  assert(app.includes('TOKEN_ALLOWANCE_SCOPE_AND_RESIDUAL_APPROVAL_RISK_NOT_MODELED'));
+  assert(!/window\.ethereum|eth_sendTransaction|eth_requestAccounts/.test(app));
 });

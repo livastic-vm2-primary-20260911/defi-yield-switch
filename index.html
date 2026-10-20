@@ -55,7 +55,10 @@
 <div class="divider"></div><h3>02 / Costs you actually pay</h3><p class="small">Put protocol withdrawal, bridging, swap execution, wallet gas and slippage here. Values are user estimates.</p>
 <div class="field-grid"><div class="field"><label for="i-gasUsd">Transaction gas costs</label>
 <div class="input-wrap"><input id="i-gasUsd" data-input="gasUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-gasUsd"><span class="suffix">USD</span></div>
-<span id="help-gasUsd" class="help">All onchain transactions to enter.</span></div>
+<span id="help-gasUsd" class="help">Ordinary gas EXCLUDING approvals or revocations; avoid double counting below.</span></div>
+<div class="field"><label for="i-allowanceLifecycleUsd">Token approval / revoke gas</label>
+<div class="input-wrap"><input id="i-allowanceLifecycleUsd" data-input="allowanceLifecycleUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-allowanceLifecycleUsd"><span class="suffix">USD</span></div>
+<span id="help-allowanceLifecycleUsd" class="help">Extra gas for approval, changing spending limits and later revocation. Do not double-count ordinary gas. Unlimited allowance risk is NOT priced. <a href="/defi-yield-switch/allowance-gas/">Why allowance changes matter ↗</a></span></div>
 <div class="field"><label for="i-bridgeUsd">Bridge / transfer fees</label>
 <div class="input-wrap"><input id="i-bridgeUsd" data-input="bridgeUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-bridgeUsd"><span class="suffix">USD</span></div>
 <span id="help-bridgeUsd" class="help">Moving networks is not risk-free.</span></div>

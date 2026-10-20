@@ -71,7 +71,7 @@ test('public root project GitHub repo and valid site sitemap, robots',()=>{
   const url='https://github.com/livastic-vm2-primary-20260911/defi-yield-switch';
   assert(en.includes(url));assert(ko.includes(url));
   const xml=read('sitemap.xml');
-  assert.equal((xml.match(/<loc>/g)||[]).length,8);
+  assert.equal((xml.match(/<loc>/g)||[]).length,10);
   assert(xml.includes(SITE+'</loc>'));
   assert(xml.includes(SITE+'ko/</loc>'));
   assert(read('robots.txt').includes('Sitemap: '+SITE+'sitemap.xml'));
@@ -152,4 +152,35 @@ test('actual no-wallet small DeFi position example exposes gas unit economics in
   assert(app.includes('gasUsd:0.50'));
   assert(app.includes('targetBaseApy:7.3'));
   assert(!/eth_sendTransaction|window\.ethereum|fetch\(/.test(app));
+});
+
+test('new user-requested approval-and-revoke gas field is mirrored in EN/KO private calculators',()=>{
+  for(const html of [en,ko]){
+    assert(html.includes('data-input="allowanceLifecycleUsd"'));
+    assert(html.includes('id="help-allowanceLifecycleUsd"'));
+  }
+  for(const lang of ['','ko/']){
+    assert(read(lang+'feedback/index.html').includes('<option value="token_allowance_gas_revoke">'));
+  }
+  const app=read('assets/app.mjs');
+  assert(app.includes('TOKEN_ALLOWANCE_SCOPE_AND_RESIDUAL_APPROVAL_RISK_NOT_MODELED'));
+  assert(!/window\.ethereum|eth_sendTransaction|eth_requestAccounts/.test(app));
+});
+
+test('real ERC20 user pain page compares 73 vs 110 days and links firstparty original token standard',()=>{
+  for(const [name,lang] of [['allowance-gas/index.html','en'],['ko/allowance-gas/index.html','ko']]){
+    const page=read(name);
+    assert(page.includes('<html lang="'+lang+'">'));
+    assert(page.includes('73 days')||page.includes('73일'));
+    assert(page.includes('110 days')||page.includes('110일'));
+    assert(page.includes('https://eips.ethereum.org/EIPS/eip-20'));
+    assert(page.includes('https://ethereum.org/developers/tutorials/erc20-annotated-code/'));
+    assert(page.includes("connect-src 'none'"));
+    assert(page.includes("form-action 'none'"));
+    assert(!/eth_sendTransaction|window\.ethereum|eth_signTypedData/.test(page));
+    assert(page.includes('/feedback/'));
+  }
+  assert(en.includes('href="/defi-yield-switch/allowance-gas/"'));
+  assert(ko.includes('href="/defi-yield-switch/ko/allowance-gas/"'));
+  assert(read('sitemap.xml').includes('/ko/allowance-gas/'));
 });

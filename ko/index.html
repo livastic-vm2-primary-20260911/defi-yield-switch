@@ -55,7 +55,10 @@
 <div class="divider"></div><h3>02 / 실제로 발생할 전환 비용</h3><p class="small">출금, 브리지, 스왑, 가스, 슬리피지에 대한 실제 예상 금액을 입력하세요.</p>
 <div class="field-grid"><div class="field"><label for="i-gasUsd">거래 가스 비용</label>
 <div class="input-wrap"><input id="i-gasUsd" data-input="gasUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-gasUsd"><span class="suffix">USD</span></div>
-<span id="help-gasUsd" class="help">이동·예치에 필요한 가스비 총액</span></div>
+<span id="help-gasUsd" class="help">승인·승인 철회 비용은 아래 별도 입력하고 중복 계산하지 마세요.</span></div>
+<div class="field"><label for="i-allowanceLifecycleUsd">토큰 사용 승인·철회 가스비</label>
+<div class="input-wrap"><input id="i-allowanceLifecycleUsd" data-input="allowanceLifecycleUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-allowanceLifecycleUsd"><span class="suffix">USD</span></div>
+<span id="help-allowanceLifecycleUsd" class="help">토큰 사용 승인·한도 변경·나중 승인 철회에 추가로 드는 가스비. 다른 가스비와 중복 입력하지 마세요. 무제한 권한 위험은 비용으로 산정하지 않습니다. <a href="/defi-yield-switch/ko/allowance-gas/">승인 비용이 중요한 이유 ↗</a></span></div>
 <div class="field"><label for="i-bridgeUsd">브리지·이동 수수료</label>
 <div class="input-wrap"><input id="i-bridgeUsd" data-input="bridgeUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-bridgeUsd"><span class="suffix">USD</span></div>
 <span id="help-bridgeUsd" class="help">네트워크 변경에는 추가 위험이 존재</span></div>
