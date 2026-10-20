@@ -71,7 +71,7 @@ test('public root project GitHub repo and valid site sitemap, robots',()=>{
   const url='https://github.com/livastic-vm2-primary-20260911/defi-yield-switch';
   assert(en.includes(url));assert(ko.includes(url));
   const xml=read('sitemap.xml');
-  assert.equal((xml.match(/<loc>/g)||[]).length,2);
+  assert.equal((xml.match(/<loc>/g)||[]).length,4);
   assert(xml.includes(SITE+'</loc>'));
   assert(xml.includes(SITE+'ko/</loc>'));
   assert(read('robots.txt').includes('Sitemap: '+SITE+'sitemap.xml'));
@@ -108,4 +108,25 @@ test('honest external crypto tools directory navigation is discoverable without 
     assert(html.includes('target="_blank" rel="noopener noreferrer">Crypto Tools Directory'));
     assert(!html.includes('sponsored listing approved'));
   }
+});
+
+test('one-page paid report example is HONEST synthetic free preview and links to actual feedback',()=>{
+  const issue='https://github.com/livastic-vm2-primary-20260911/defi-yield-switch/issues/new?template=feedback.yml';
+  for(const lang of ['','ko/']){
+    const html=lang?ko:en;
+    const sample=read(lang+'examples/index.html');
+    assert(html.includes(issue));
+    assert(html.includes('href="/defi-yield-switch/'+lang+'examples/"'));
+    assert(sample.includes('href="'+issue+'"'));
+    assert(sample.includes('15 USDC')||sample.includes('$15'));
+    assert(sample.includes('49 days')||sample.includes('49일'));
+    assert(sample.includes('$22.58'));
+    assert(sample.includes('$10.52'));
+    assert(sample.includes('AI')&&sample.includes('https://github.com/livastic-vm2-primary-20260911/defi-yield-switch'));
+    assert(sample.includes("connect-src 'none'"));
+    assert(!/customer testimonial|real paid client|we guarantee/i.test(sample));
+  }
+  const sitemap=read('sitemap.xml');
+  assert(sitemap.includes(SITE+'examples/'));
+  assert(sitemap.includes(SITE+'ko/examples/'));
 });
