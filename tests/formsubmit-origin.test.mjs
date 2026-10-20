@@ -12,7 +12,7 @@ const forms=[
 test('all original hosted third-party forms send the public website origin, NOT no-referrer',()=>{
  for(const [file] of forms){
    const t=source(file);
-   assert(t.includes('<meta name="referrer" content="origin">'),file);
+   assert(t.includes('<meta name="referrer" content="strict-origin-when-cross-origin">'),file);
    assert(!t.includes('<meta name="referrer" content="no-referrer">'),file);
    assert(t.includes('form-action https://formsubmit.co;'));
    assert(t.includes("connect-src 'none'"));
@@ -60,6 +60,6 @@ test('readme explicitly distinguishes an owner synthetic error from real user fe
  const s=source('README.md');
  assert(s.includes('no-referrer'));
  assert(s.includes('"Unable to submit form"'));
- assert(s.includes('synthetic owner-only live test'));
- assert(s.includes('NOT a real customer inquiry'));
+ assert(s.includes('two synthetic owner-only native form attempts'));
+ assert(s.includes('neither test is a real customer inquiry'));
 });
