@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081a1c">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'none'; form-action 'none'; object-src 'none'; base-uri 'none'">
+<title>DeFi 이동 손익분기점 — fee break-even before a DeFi vault move</title>
+<meta name="description" content="DeFi 볼트·예치처를 바꿀 때 가스비, 스왑 수수료, 브리지 비용, 슬리피지, 출금 대기 기간이 수익을 잠식합니다. 자금을 이동하기 전에 비용을 회수하는 시점을 계산하세요. 지갑 연결·자동 거래·개인정보 업로드가 필요 없습니다.">
+<link rel="canonical" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">
+<link rel="alternate" hreflang="en" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">
+<link rel="alternate" hreflang="ko" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">
+<link rel="alternate" hreflang="x-default" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">
+<meta property="og:title" content="DeFi 이동 손익분기점">
+<meta property="og:type" content="website">
+<meta property="og:description" content="DeFi 볼트·예치처를 바꿀 때 가스비, 스왑 수수료, 브리지 비용, 슬리피지, 출금 대기 기간이 수익을 잠식합니다. 자금을 이동하기 전에 비용을 회수하는 시점을 계산하세요. 지갑 연결·자동 거래·개인정보 업로드가 필요 없습니다.">
+<meta property="og:url" content="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/app.mjs"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"DeFi Yield Switch Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Any browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free no-wallet hypothetical DeFi vault-switch fee break-even calculator. No live prices or financial advice."}</script>
+</head>
+<body>
+<a class="skip" href="#calculator">Skip to calculator</a>
+<header><div class="wrap header-inner">
+<a class="brand" href="../"><span class="logo">Δ</span><span>DeFi Switch Lab<small>Fee drag, not APY hype</small></span></a>
+<nav><a href="#calculator">계산기</a><a href="#method">한계</a><a href="#paid">유료 검토</a><a class="switch" href="../">English</a></nav>
+</div></header>
+<section class="hero"><div class="wrap">
+<span class="pill"><i></i>지갑 없는 계산기 · 수익률 직접 입력</span>
+<h1>더 높은 APY, <em>옮겨도 남을까요?</em></h1><p class="lead">DeFi 볼트·예치처를 바꿀 때 가스비, 스왑 수수료, 브리지 비용, 슬리피지, 출금 대기 기간이 수익을 잠식합니다. 자금을 이동하기 전에 비용을 회수하는 시점을 계산하세요. 지갑 연결·자동 거래·개인정보 업로드가 필요 없습니다.</p>
+<div class="microfacts"><span>✓ 지갑 연결 없음</span><span>✓ 추적·계정 없음</span><span>✓ 실시간 수익 보장 없음</span><span>✓ 무료 오픈소스</span></div>
+</div></section>
+<main class="main"><div class="wrap">
+<div class="app-grid" id="workbench">
+<form id="calculator" class="panel" novalidate>
+<div class="panel-body"><div class="panel-head"><div><h2>계산기</h2><p class="small">모든 수치는 입력한 USD 가치·APY의 가상 시나리오입니다.</p></div><span class="pill">100% LOCAL</span></div>
+<div class="divider"></div><h3>01 / 원금과 수익률 가정</h3><p class="small">실시간 수익률이 아니라 사용자가 직접 입력한 APY입니다.</p>
+<div class="field-grid"><div class="field"><label for="i-principal">이동할 원금</label>
+<div class="input-wrap"><input id="i-principal" data-input="principal" type="number" inputmode="decimal" autocomplete="off" step="any" value="10000" required aria-describedby="help-principal"><span class="suffix">USD</span></div>
+<span id="help-principal" class="help">토큰의 추정 USD 가치</span></div>
+<div class="field"><label for="i-currentBaseApy">현재 기본 APY</label>
+<div class="input-wrap"><input id="i-currentBaseApy" data-input="currentBaseApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="3" required aria-describedby="help-currentBaseApy"><span class="suffix">%</span></div>
+<span id="help-currentBaseApy" class="help">보상 토큰을 제외한 현재 수익률</span></div>
+<div class="field"><label for="i-currentRewardApy">현재 보상 APY</label>
+<div class="input-wrap"><input id="i-currentRewardApy" data-input="currentRewardApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-currentRewardApy"><span class="suffix">%</span></div>
+<span id="help-currentRewardApy" class="help">현재 인센티브·토큰 보상</span></div>
+<div class="field"><label for="i-targetBaseApy">후보 기본 APY</label>
+<div class="input-wrap"><input id="i-targetBaseApy" data-input="targetBaseApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="4.5" required aria-describedby="help-targetBaseApy"><span class="suffix">%</span></div>
+<span id="help-targetBaseApy" class="help">후보의 기본 수익률</span></div>
+<div class="field"><label for="i-targetRewardApy">후보 보상 APY</label>
+<div class="input-wrap"><input id="i-targetRewardApy" data-input="targetRewardApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="1" required aria-describedby="help-targetRewardApy"><span class="suffix">%</span></div>
+<span id="help-targetRewardApy" class="help">지속·가격 보장이 없는 보상 APY</span></div>
+<div class="field"><label for="i-rewardRealizationPct">보상 실현 비율</label>
+<div class="input-wrap"><input id="i-rewardRealizationPct" data-input="rewardRealizationPct" type="number" inputmode="decimal" autocomplete="off" step="any" value="50" required aria-describedby="help-rewardRealizationPct"><span class="suffix">%</span></div>
+<span id="help-rewardRealizationPct" class="help">0%는 보상 제외, 100%는 전액 실현 가정</span></div></div>
+<div class="divider"></div><h3>02 / 실제로 발생할 전환 비용</h3><p class="small">출금, 브리지, 스왑, 가스, 슬리피지에 대한 실제 예상 금액을 입력하세요.</p>
+<div class="field-grid"><div class="field"><label for="i-gasUsd">거래 가스 비용</label>
+<div class="input-wrap"><input id="i-gasUsd" data-input="gasUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-gasUsd"><span class="suffix">USD</span></div>
+<span id="help-gasUsd" class="help">이동·예치에 필요한 가스비 총액</span></div>
+<div class="field"><label for="i-bridgeUsd">브리지·이동 수수료</label>
+<div class="input-wrap"><input id="i-bridgeUsd" data-input="bridgeUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-bridgeUsd"><span class="suffix">USD</span></div>
+<span id="help-bridgeUsd" class="help">네트워크 변경에는 추가 위험이 존재</span></div>
+<div class="field"><label for="i-swapUsd">스왑 거래 수수료</label>
+<div class="input-wrap"><input id="i-swapUsd" data-input="swapUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="4" required aria-describedby="help-swapUsd"><span class="suffix">USD</span></div>
+<span id="help-swapUsd" class="help">교환·라우팅 수수료</span></div>
+<div class="field"><label for="i-exitUsd">기존 볼트 출금 비용</label>
+<div class="input-wrap"><input id="i-exitUsd" data-input="exitUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="1" required aria-describedby="help-exitUsd"><span class="suffix">USD</span></div>
+<span id="help-exitUsd" class="help">기존 예치처의 출금 비용·패널티</span></div>
+<div class="field"><label for="i-futureExitUsd">향후 후보 출금 비용</label>
+<div class="input-wrap"><input id="i-futureExitUsd" data-input="futureExitUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-futureExitUsd"><span class="suffix">USD</span></div>
+<span id="help-futureExitUsd" class="help">후보에서 나중에 출금할 비용</span></div>
+<div class="field"><label for="i-slippageBps">예상 슬리피지</label>
+<div class="input-wrap"><input id="i-slippageBps" data-input="slippageBps" type="number" inputmode="decimal" autocomplete="off" step="any" value="15" required aria-describedby="help-slippageBps"><span class="suffix">bps</span></div>
+<span id="help-slippageBps" class="help">100bps=1%, 이동 원금에 적용</span></div></div>
+<div class="divider"></div><h3>03 / 출금 제약과 평가 기간</h3><p class="small">수익 미발생 지연과 출금 잠금은 서로 다릅니다.</p>
+<div class="field-grid"><div class="field"><label for="i-delayDays">새 수익이 없는 이동 기간</label>
+<div class="input-wrap"><input id="i-delayDays" data-input="delayDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-delayDays"><span class="suffix">days</span></div>
+<span id="help-delayDays" class="help">이동·대기 때문에 후보 수익이 발생하지 않는 기간</span></div>
+<div class="field"><label for="i-lockDays">후보 출금 잠금</label>
+<div class="input-wrap"><input id="i-lockDays" data-input="lockDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-lockDays"><span class="suffix">days</span></div>
+<span id="help-lockDays" class="help">해당 일수 동안 인출 불가능할 수 있음</span></div>
+<div class="field"><label for="i-horizonDays">비교할 기간</label>
+<div class="input-wrap"><input id="i-horizonDays" data-input="horizonDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="90" required aria-describedby="help-horizonDays"><span class="suffix">days</span></div>
+<span id="help-horizonDays" class="help">아래에서 30·90·180·365일도 비교</span></div></div>
+<div class="actions">
+<button class="primary" type="submit">비용 회수일 계산 →</button>
+<button class="secondary" type="button" id="example-low-cost">일반 스테이블코인 예시</button>
+<button class="secondary" type="button" id="example-costly">비용이 큰 크로스체인 예시</button>
+</div><p class="status" id="status" role="status" aria-live="polite"></p>
+</div></form>
+<aside class="panel results" aria-label="가정 기반 전환 결과">
+<div class="result-top"><span class="eyebrow" id="net-label">추정 순변화</span>
+<div id="net-change" class="delta neutral">—</div><p id="net-explain">모든 수치는 입력한 USD 가치·APY의 가상 시나리오입니다.</p></div>
+<div class="metric-grid">
+<div class="metric"><span>손익분기점</span><strong id="break-even">—</strong></div>
+<div class="metric"><span>추정 총 이동 비용</span><strong id="friction">—</strong></div>
+<div class="metric"><span>현재 가정 APY</span><strong id="rate-current">—</strong></div>
+<div class="metric"><span>후보 가정 APY</span><strong id="rate-target">—</strong></div>
+<div class="metric full"><span>보상 토큰이 끊기면</span><strong id="stress">—</strong></div>
+<div class="metric"><span>비교 기간</span><strong id="horizon">—</strong></div>
+<div class="metric"><span>출금 가능성</span><strong style="font:600 12px/1.5 system-ui" id="locked">—</strong></div>
+</div>
+<div class="chart"><h3>유지 대비 기간별 추정 차액</h3><div id="chart"></div></div>
+<div class="disclosure"><strong>적용한 비용 세부 내역</strong><p id="cost-detail"></p></div>
+<div class="disclosure"><strong>계산기만으로 증명하지 못하는 위험</strong><ul id="flags"></ul></div>
+</aside>
+</div>
+<section class="section" id="method"><h2>계산 방법</h2><p class="intro">두 예치처의 연간 가정 수익률을 단리로 비교합니다. 후보는 입력한 이동 지연 동안 수익이 발생하지 않는 것으로 두고, 가스·브리지·스왑·출금·향후 출금·가격 영향 비용을 차감합니다. 보상 토큰 실현 비율은 0~100%로 조절하며 복리·세금은 계산하지 않습니다.</p>
+<div class="sidelist">
+<article class="card"><h3>실제 APY는 해당 프로토콜과 원문에서 확인</h3><p>이 무료 계산기는 실시간 APY API를 호출하지 않습니다. 조회 사이트 수치는 검토의 출발점일 뿐 감사·수익 보장이 아닙니다.</p>
+<p><a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer">독립 수익률 자료 보기 ↗</a></p>
+<p>DefiLlama 무료 수익률 API는 2026년 11월 13일 종료 예정이며 이 계산기는 해당 API에 의존하지 않습니다.</p></article>
+<article class="card"><h3>어떤 전환 비용을 놓쳤나요?</h3><p>브리지·볼트 출금·보상 토큰 등 필요한 기능을 알려주세요. 기존 이메일 앱에서 직접 선택해 보내는 방식이며 사이트 자체는 개인정보를 수집하지 않습니다.</p>
+<a class="button secondary" href="mailto:onecursor1@gmail.com?subject=DeFi%20Yield%20Switch%20calculator%20feedback">자발적으로 의견 보내기 ↗</a>
+<div class="actions"><button class="secondary" type="button" id="download">가정·결과 JSON 로컬 저장</button></div></article>
+</div></section>
+<section class="section paid" id="paid"><div><span class="pill" style="border-color:#5c9e77;background:#cfedc7;color:#164328">상호 범위 확정 시에만 제공 · 실제 유료 고객 아직 미검증</span>
+<h2>1쪽 분량의 독립 검토가 필요하신가요?</h2><p>작업 범위에 먼저 합의하는 경우에만 Base 정품 Circle USDC 15를 받고, 한 건의 예치처 변경에 대한 수수료·출금 제한·보상 토큰 의존도·원문 근거를 정리합니다. 투자 상품 추천, 스마트컨트랙트 감사, 수익률 보장, 세무 자문은 하지 않습니다. 문의만으로 결제할 의무는 없습니다.</p>
+<a class="button primary" href="mailto:onecursor1@gmail.com?subject=15%20USDC%20fixed-scope%20DeFi%20yield-switch%20research%20inquiry">15 USDC 범위 합의형 보고서 문의 ↗</a>
+</div><div class="meta"><strong>Base USDC 자발적 후원</strong><p>후원은 무료 도구 제작 지원일 뿐 유료 보고서 주문, API 결제, 스테이킹·환급 약속이 아닙니다. Base 메인넷·Circle USDC·수령 주소를 독립적으로 확인하세요.</p>
+<code id="public-tip">0x6b01efA0705E91a7aca54271510bf9e594717f34</code>
+<div class="actions"><button class="button primary" type="button" id="copy-tip">선택적 후원 지갑 주소 복사</button></div>
+<p class="status" id="tip-status" role="status" aria-live="polite"></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://basescan.org/address/0x6b01efA0705E91a7aca54271510bf9e594717f34">BaseScan ↗</a></p>
+</div></section>
+</div></main>
+<footer><div class="wrap"><strong>DeFi Switch Lab / Workflow Guard • 2026</strong><p>투자·세금·법률·스마트컨트랙트 보안 또는 개인 재무 자문이 아닙니다. 실시간 호가, 출금 시뮬레이션, 키 보관, 토큰 승인, 자동 거래 또는 수익 보장을 제공하지 않습니다. 수익률 변동, 디페깅, 청산·출금 제한·체인 장애 등은 계산보다 클 수 있습니다. 실제 유료 보고서 구매자는 확인되지 않았습니다.</p>
+<div class="links"><a href="https://github.com/livastic-vm2-primary-20260911/defi-yield-switch" target="_blank" rel="noopener noreferrer">AI 보조 개발 · MIT 원본 소스 ↗</a><a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer">DefiLlama ↗</a><a href="https://livastic-vm2-primary-20260911.github.io/" target="_blank" rel="noopener noreferrer">Workflow Guard ↗</a></div>
+</div></footer>
+</body></html>

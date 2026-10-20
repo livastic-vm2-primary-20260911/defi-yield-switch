@@ -1,0 +1,11 @@
+{
+  "name": "defi-yield-switch",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Private-by-default DeFi vault switching fee breakeven calculator with optional scoped USD stablecoin report",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check assets/calculator.mjs && node --check assets/app.mjs && npm test"
+  }
+}

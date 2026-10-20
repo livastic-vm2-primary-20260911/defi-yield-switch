@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081a1c">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'none'; form-action 'none'; object-src 'none'; base-uri 'none'">
+<title>DeFi Yield Switch — fee break-even before a DeFi vault move</title>
+<meta name="description" content="DeFi vault hopping looks profitable until gas, swap fees, bridge costs, slippage and cooldown eat the yield. Estimate the break-even day before changing a position. No wallet connection, no network request, no investment instruction.">
+<link rel="canonical" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">
+<link rel="alternate" hreflang="en" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">
+<link rel="alternate" hreflang="ko" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">
+<link rel="alternate" hreflang="x-default" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">
+<meta property="og:title" content="DeFi Yield Switch">
+<meta property="og:type" content="website">
+<meta property="og:description" content="DeFi vault hopping looks profitable until gas, swap fees, bridge costs, slippage and cooldown eat the yield. Estimate the break-even day before changing a position. No wallet connection, no network request, no investment instruction.">
+<meta property="og:url" content="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/">
+<link rel="stylesheet" href="./assets/style.css">
+<script type="module" src="./assets/app.mjs"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"DeFi Yield Switch Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Any browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free no-wallet hypothetical DeFi vault-switch fee break-even calculator. No live prices or financial advice."}</script>
+</head>
+<body>
+<a class="skip" href="#calculator">Skip to calculator</a>
+<header><div class="wrap header-inner">
+<a class="brand" href="./"><span class="logo">Δ</span><span>DeFi Switch Lab<small>Fee drag, not APY hype</small></span></a>
+<nav><a href="#calculator">Calculator</a><a href="#method">Assumptions</a><a href="#paid">Paid review</a><a class="switch" href="./ko/">한국어</a></nav>
+</div></header>
+<section class="hero"><div class="wrap">
+<span class="pill"><i></i>No-wallet calculator · user-entered APYs</span>
+<h1>Is that higher APY <em>worth the move?</em></h1><p class="lead">DeFi vault hopping looks profitable until gas, swap fees, bridge costs, slippage and cooldown eat the yield. Estimate the break-even day before changing a position. No wallet connection, no network request, no investment instruction.</p>
+<div class="microfacts"><span>✓ No wallet connection</span><span>✓ No trackers or account</span><span>✓ No live APY promise</span><span>✓ Free and open source</span></div>
+</div></section>
+<main class="main"><div class="wrap">
+<div class="app-grid" id="workbench">
+<form id="calculator" class="panel" novalidate>
+<div class="panel-body"><div class="panel-head"><div><h2>Calculator</h2><p class="small">All values are hypothetical USD estimates.</p></div><span class="pill">100% LOCAL</span></div>
+<div class="divider"></div><h3>01 / Position and yield assumptions</h3><p class="small">All APYs are entered by you, not fetched from markets.</p>
+<div class="field-grid"><div class="field"><label for="i-principal">Capital being moved</label>
+<div class="input-wrap"><input id="i-principal" data-input="principal" type="number" inputmode="decimal" autocomplete="off" step="any" value="10000" required aria-describedby="help-principal"><span class="suffix">USD</span></div>
+<span id="help-principal" class="help">Estimated value of your tokens.</span></div>
+<div class="field"><label for="i-currentBaseApy">Current base APY</label>
+<div class="input-wrap"><input id="i-currentBaseApy" data-input="currentBaseApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="3" required aria-describedby="help-currentBaseApy"><span class="suffix">%</span></div>
+<span id="help-currentBaseApy" class="help">Existing yield excluding rewards.</span></div>
+<div class="field"><label for="i-currentRewardApy">Current reward APY</label>
+<div class="input-wrap"><input id="i-currentRewardApy" data-input="currentRewardApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-currentRewardApy"><span class="suffix">%</span></div>
+<span id="help-currentRewardApy" class="help">Token emissions or incentives.</span></div>
+<div class="field"><label for="i-targetBaseApy">Candidate base APY</label>
+<div class="input-wrap"><input id="i-targetBaseApy" data-input="targetBaseApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="4.5" required aria-describedby="help-targetBaseApy"><span class="suffix">%</span></div>
+<span id="help-targetBaseApy" class="help">Excludes reward token incentives.</span></div>
+<div class="field"><label for="i-targetRewardApy">Candidate reward APY</label>
+<div class="input-wrap"><input id="i-targetRewardApy" data-input="targetRewardApy" type="number" inputmode="decimal" autocomplete="off" step="any" value="1" required aria-describedby="help-targetRewardApy"><span class="suffix">%</span></div>
+<span id="help-targetRewardApy" class="help">May expire or lose market value.</span></div>
+<div class="field"><label for="i-rewardRealizationPct">Reward payout assumption</label>
+<div class="input-wrap"><input id="i-rewardRealizationPct" data-input="rewardRealizationPct" type="number" inputmode="decimal" autocomplete="off" step="any" value="50" required aria-describedby="help-rewardRealizationPct"><span class="suffix">%</span></div>
+<span id="help-rewardRealizationPct" class="help">Set 0% to ignore emissions; 100% assumes full payout.</span></div></div>
+<div class="divider"></div><h3>02 / Costs you actually pay</h3><p class="small">Put protocol withdrawal, bridging, swap execution, wallet gas and slippage here. Values are user estimates.</p>
+<div class="field-grid"><div class="field"><label for="i-gasUsd">Transaction gas costs</label>
+<div class="input-wrap"><input id="i-gasUsd" data-input="gasUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-gasUsd"><span class="suffix">USD</span></div>
+<span id="help-gasUsd" class="help">All onchain transactions to enter.</span></div>
+<div class="field"><label for="i-bridgeUsd">Bridge / transfer fees</label>
+<div class="input-wrap"><input id="i-bridgeUsd" data-input="bridgeUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-bridgeUsd"><span class="suffix">USD</span></div>
+<span id="help-bridgeUsd" class="help">Moving networks is not risk-free.</span></div>
+<div class="field"><label for="i-swapUsd">Swap trading fees</label>
+<div class="input-wrap"><input id="i-swapUsd" data-input="swapUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="4" required aria-describedby="help-swapUsd"><span class="suffix">USD</span></div>
+<span id="help-swapUsd" class="help">Exchange and routing fees.</span></div>
+<div class="field"><label for="i-exitUsd">Current vault exit fees</label>
+<div class="input-wrap"><input id="i-exitUsd" data-input="exitUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="1" required aria-describedby="help-exitUsd"><span class="suffix">USD</span></div>
+<span id="help-exitUsd" class="help">Include penalty and exit fee.</span></div>
+<div class="field"><label for="i-futureExitUsd">Expected later exit cost</label>
+<div class="input-wrap"><input id="i-futureExitUsd" data-input="futureExitUsd" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-futureExitUsd"><span class="suffix">USD</span></div>
+<span id="help-futureExitUsd" class="help">Estimate cost of exiting target later.</span></div>
+<div class="field"><label for="i-slippageBps">Estimated price impact</label>
+<div class="input-wrap"><input id="i-slippageBps" data-input="slippageBps" type="number" inputmode="decimal" autocomplete="off" step="any" value="15" required aria-describedby="help-slippageBps"><span class="suffix">bps</span></div>
+<span id="help-slippageBps" class="help">100 bps = 1%. Applied to original principal.</span></div></div>
+<div class="divider"></div><h3>03 / Liquidity and horizon</h3><p class="small">Earning delay is time without target yield; lockup marks potential inability to withdraw, not lost APY.</p>
+<div class="field-grid"><div class="field"><label for="i-delayDays">Days without new yield</label>
+<div class="input-wrap"><input id="i-delayDays" data-input="delayDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="2" required aria-describedby="help-delayDays"><span class="suffix">days</span></div>
+<span id="help-delayDays" class="help">Bridge, cooldown, waiting before earning.</span></div>
+<div class="field"><label for="i-lockDays">Candidate withdrawal lock</label>
+<div class="input-wrap"><input id="i-lockDays" data-input="lockDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="0" required aria-describedby="help-lockDays"><span class="suffix">days</span></div>
+<span id="help-lockDays" class="help">Funds may not be accessible during this period.</span></div>
+<div class="field"><label for="i-horizonDays">Decision horizon</label>
+<div class="input-wrap"><input id="i-horizonDays" data-input="horizonDays" type="number" inputmode="decimal" autocomplete="off" step="any" value="90" required aria-describedby="help-horizonDays"><span class="suffix">days</span></div>
+<span id="help-horizonDays" class="help">Also compares 30, 90, 180, 365 days below.</span></div></div>
+<div class="actions">
+<button class="primary" type="submit">Calculate fee break-even →</button>
+<button class="secondary" type="button" id="example-low-cost">Typical stablecoin move</button>
+<button class="secondary" type="button" id="example-costly">Expensive cross-chain move</button>
+</div><p class="status" id="status" role="status" aria-live="polite"></p>
+</div></form>
+<aside class="panel results" aria-label="Your modeled switch">
+<div class="result-top"><span class="eyebrow" id="net-label">Estimated net difference</span>
+<div id="net-change" class="delta neutral">—</div><p id="net-explain">All values are hypothetical USD estimates.</p></div>
+<div class="metric-grid">
+<div class="metric"><span>Fee break-even</span><strong id="break-even">—</strong></div>
+<div class="metric"><span>Estimated total friction</span><strong id="friction">—</strong></div>
+<div class="metric"><span>Current modeled APY</span><strong id="rate-current">—</strong></div>
+<div class="metric"><span>Candidate modeled APY</span><strong id="rate-target">—</strong></div>
+<div class="metric full"><span>If target rewards stop</span><strong id="stress">—</strong></div>
+<div class="metric"><span>Decision period</span><strong id="horizon">—</strong></div>
+<div class="metric"><span>Exit availability</span><strong style="font:600 12px/1.5 system-ui" id="locked">—</strong></div>
+</div>
+<div class="chart"><h3>Net difference vs staying</h3><div id="chart"></div></div>
+<div class="disclosure"><strong>What you assumed for fees</strong><p id="cost-detail"></p></div>
+<div class="disclosure"><strong>What the calculator cannot certify</strong><ul id="flags"></ul></div>
+</aside>
+</div>
+<section class="section" id="method"><h2>How the numbers work</h2><p class="intro">We compare two simple annualized hypothetical interest streams. The candidate earns nothing during your specified delay. We subtract your USD gas, bridge, swap, withdrawal, future exit and price-impact estimates. Reward incentives can be haircut from 0 to 100%. No compounding or tax treatment is modeled.</p>
+<div class="sidelist">
+<article class="card"><h3>Check rates at the source — not here</h3><p>This free calculator intentionally has no market-rate API. A source dashboard is a starting point, not a guarantee or an audit.</p>
+<p><a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer">Browse independent live yield data ↗</a></p>
+<p>DefiLlama free yields endpoint sunsets on 13 Nov 2026; this tool deliberately does not depend on it.</p></article>
+<article class="card"><h3>What fees did we miss?</h3><p>Tell us which migration, protocol exit or incentive detail this tool should cover. Feedback is opt-in via your own email app; this page collects none.</p>
+<a class="button secondary" href="mailto:onecursor1@gmail.com?subject=DeFi%20Yield%20Switch%20calculator%20feedback">Send opt-in feedback ↗</a>
+<div class="actions"><button class="secondary" type="button" id="download">Download local scenario JSON</button></div></article>
+</div></section>
+<section class="section paid" id="paid"><div><span class="pill" style="border-color:#5c9e77;background:#cfedc7;color:#164328">Conditional, individually agreed service · ZERO verified buyers</span>
+<h2>Prefer an independent one-page check?</h2><p>For a fixed 15 native Base Circle USDC (only after we agree on scope), request a brief evidence-based review of the fee assumptions, liquidity locks, incentive dependence and primary-source links for one proposed switch. We do NOT select investments, audit smart contracts, guarantee APY or provide tax advice. No payment is due from submitting an inquiry.</p>
+<a class="button primary" href="mailto:onecursor1@gmail.com?subject=15%20USDC%20fixed-scope%20DeFi%20yield-switch%20research%20inquiry">Ask about a 15 USDC scoped research note ↗</a>
+</div><div class="meta"><strong>Optional Base USDC support</strong><p>Tips support the free calculator. Not a report order, API payment, stake or refundable deposit. Never send keys, and independently verify Base Mainnet &amp; Circle USDC.</p>
+<code id="public-tip">0x6b01efA0705E91a7aca54271510bf9e594717f34</code>
+<div class="actions"><button class="button primary" type="button" id="copy-tip">Copy optional tip wallet address</button></div>
+<p class="status" id="tip-status" role="status" aria-live="polite"></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://basescan.org/address/0x6b01efA0705E91a7aca54271510bf9e594717f34">BaseScan ↗</a></p>
+</div></section>
+</div></main>
+<footer><div class="wrap"><strong>DeFi Switch Lab / Workflow Guard • 2026</strong><p>Not investment, tax, legal, smart-contract-security or financial advice. No live quotes, simulation of withdrawals, key custody, token approvals, automation, or rate guarantees. Volatile APYs, depegs, liquidation queues and chain failure can overwhelm this arithmetic. No independently confirmed paid report buyer yet.</p>
+<div class="links"><a href="https://github.com/livastic-vm2-primary-20260911/defi-yield-switch" target="_blank" rel="noopener noreferrer">AI-assisted original MIT source ↗</a><a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer">DefiLlama ↗</a><a href="https://livastic-vm2-primary-20260911.github.io/" target="_blank" rel="noopener noreferrer">Workflow Guard ↗</a></div>
+</div></footer>
+</body></html>

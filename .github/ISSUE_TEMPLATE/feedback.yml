@@ -1,0 +1,29 @@
+name: Missing DeFi switching cost or feedback
+description: Ask us to improve the free, no-wallet fee break-even calculator. Never paste keys, wallet balances, or private transactions.
+title: "Calculator feedback: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This tool does not offer investment advice or screen real vaults.
+        Do not include your wallet, personal finances, seed phrase, access token or private trades.
+        Fees mentioned in a public issue are hypothetical; use synthetic examples.
+  - type: dropdown
+    id: feedback-topic
+    attributes:
+      label: Which problem needs a better calculation?
+      options:
+        - Bridge and swap route fees
+        - Withdrawal lockups / liquidity queues
+        - Incentive token emissions
+        - Impermanent loss or LP concentrated liquidity
+        - Other missed costs
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Synthetic numbers and what you expected
+      placeholder: "I tried a fictional $5,000 stablecoin switch, 4% to 6% APY, with $30 bridge/slippage cost and a 5-day cooldown..."
+    validations:
+      required: true
