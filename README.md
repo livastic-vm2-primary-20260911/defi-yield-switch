@@ -32,6 +32,12 @@ This is not a strategy recommendation, yield forecast, safety certification, fin
 
 [DefiLlama Yields](https://defillama.com/yields) is a useful external source; according to its [official API docs](https://api-docs.defillama.com/), the free yield API stops on 13 Nov 2026. This site deliberately has NO dependency on the deprecated endpoint.
 
+## Real-world user feedback intake (optional; not a sale)
+
+The standalone EN /feedback/ and KO /ko/feedback/ forms ask what calculation is missing, approximate frequency, nonbinding willingness to pay (including **0 USDC / free**), and at most 260 characters of optional **fictional** inputs. No account, blockchain-wallet connect, actual balance, txhash, address, customer CSV, legal name, required email, identity, or keys. Forms use browser-native required consent and only after a user clicks Submit do they POST to the separately operated **FormSubmit** service, which may process sender metadata, send normal CAPTCHA/human challenge, and deliver to the single owner's already-existing mail address. We do not turn off anti-spam or auto-submit.
+
+Explicit independent GitHub issue and mailto alternatives remain available. The optional one-minute form is NOT the calculator; the calculator remains connect-src none, local-only and free. Provider redirect /feedback/thanks/ is noindex,nofollow; it is not proof of inbox delivery. As at launch **real completed feedback submissions, conversion and paying customers = 0 verified**. Do not confuse a real form's existence, operator's own tests, or willingness option labels with a third-party user's affirmative response.
+
 ## Optional one-owner service and support
 
 An opt-in \`mailto:\` request for a **fixed-scope 15 native Circle USDC on Base** AI-assisted one-page fee/exit assumptions evidence review is only an inquiry; separate scope, delivery, price acceptance and actual payment must occur before paid work begins. The service does NOT choose investments or promise rewards. There are presently **ZERO** independently verified orders of this service.

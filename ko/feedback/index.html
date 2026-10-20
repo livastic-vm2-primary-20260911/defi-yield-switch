@@ -1,0 +1,52 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081a1c"><meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'none'; form-action https://formsubmit.co; object-src 'none'; base-uri 'none'">
+<title>DeFi 예치처 변경 계산기 1분 의견 | DeFi Switch Lab</title><meta name="description" content="빠진 DeFi 수수료, 출금 제한 또는 수익률 가정을 알려주세요. 가입하지 않고 문제 유형과 비구속적 지불 의향만 선택해 제출할 수 있습니다.">
+<link rel="canonical" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/feedback/"><link rel="stylesheet" href="../../assets/style.css">
+<style>
+.main{padding:50px 0 80px}.narrow{max-width:770px;margin:auto}.narrow h1{font-size:clamp(30px,5vw,49px);line-height:1.14;letter-spacing:-.055em}
+.narrow .lead{color:#c0ded1;line-height:1.75}.panel-form{border:1px solid #477064;background:#102b2c;border-radius:15px;padding:26px;margin:25px 0}
+.panel-form .field{margin:17px 0}.panel-form label:not(.consent){font-size:13px;font-weight:750;display:block;margin-bottom:6px}
+.panel-form select,.panel-form textarea{display:block;width:100%;padding:13px;background:#092123;border:1px solid #58776a;color:#e8fff2;border-radius:7px;font:14px/1.4 system-ui}
+.panel-form option{background:#0a2223;color:#effef7}.panel-form textarea{resize:vertical}
+.panel-form select:focus-visible,.panel-form textarea:focus-visible,.consent input:focus-visible{outline:3px solid #62e3b0;outline-offset:2px}
+.consent{border:1px solid #69938a;border-radius:9px;background:#1b3f3c;display:flex;align-items:flex-start;gap:14px;padding:16px;font-size:12px;line-height:1.7}
+.consent input{flex:none;margin-top:4px;transform:scale(1.25);accent-color:#62e3b0}
+.fine{color:#c5ddcc;font-size:12px}.options{display:flex;gap:13px;flex-wrap:wrap;margin-top:16px}.options a{color:#bdf5cf;font-weight:700}
+@media(max-width:650px){.panel-form{padding:18px}.main{padding:30px 0 58px}}
+</style></head><body>
+<header><div class="wrap header-inner"><a class="brand" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/"><span class="logo">Δ</span> DeFi Switch Lab</a>
+<nav><a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">무료 계산기로 돌아가기 ↗</a><a class="switch" href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/feedback/">English</a></nav></div></header>
+<main class="main"><div class="wrap narrow">
+<span class="pill">실제 사용자 의견 모집 · 무료 · 선택</span>
+<h1>이 계산기에 무엇이 빠졌나요?</h1>
+<p class="lead">실제 사용자의 피드백에 따라 개선 우선순위를 정합니다. DeFi 수수료·출금·보상 토큰 중 중요한 문제를 고르고, 근거가 달린 1쪽 검토 보고서가 유용할지 알려주세요. 아직 실제 유료 고객 수는 0명입니다.</p>
+<section class="panel-form"><form id="human-feedback" action="https://formsubmit.co/onecursor1@gmail.com" method="POST" accept-charset="UTF-8">
+ <input type="hidden" name="_subject" value="DeFi Yield Switch — optional real user feedback; no orders">
+ <input type="hidden" name="_template" value="table">
+ <input type="hidden" name="_next" value="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/feedback/thanks/">
+ <input type="hidden" name="product" value="DeFi Yield Switch">
+ <div style="position:absolute;left:-9999px" aria-hidden="true"><label for="feedback-honeypot">Leave empty</label><input id="feedback-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+ <div class="field"><label for="pain">가장 도움이 필요한 문제는 무엇인가요? *</label><select id="pain" name="biggest_obstacle" required>
+ <option value="" selected disabled>한 가지 선택</option>
+ <option value="gas_swap_slippage">가스비·스왑 경로·슬리피지</option><option value="bridge_delay_fee">브리지 비용·확정성·이동 지연</option><option value="vault_lock_queue">볼트 출금 잠금·대기열·쿨다운</option><option value="incentives_reward_token">보상 토큰 지급 중단·APY 변동</option><option value="lp_impermanent_loss">유동성 공급 무상손실·집중 유동성</option><option value="incorrect_break_even">계산 오류·빠진 조건</option><option value="other">그 외 필요한 기능</option></select></div>
+ <div class="field"><label for="often">얼마나 자주 겪는 문제인가요? *</label><select id="often" name="frequency" required>
+ <option value="" selected disabled>한 가지 선택</option>
+ <option value="not_yet">아직은 평가 중</option><option value="monthly">약 월 1회</option><option value="weekly">매주 1회 이상</option></select></div>
+ <div class="field"><label for="price">근거 자료가 달린 1쪽 보고서에 비용을 지불할 의향이 있나요? *</label><select id="price" name="nonbinding_willingness_to_pay_usdc" required>
+ <option value="" selected disabled>선호도 선택</option>
+ <option value="0">0 USDC · 무료만 이용</option><option value="5">최대 5 USDC</option><option value="15">최대 15 USDC</option><option value="50">최대 50 USDC</option></select></div>
+ <div class="field"><label for="synthetic-example">선택: 가상 예시 (최대 260자)</label><textarea id="synthetic-example" name="synthetic_technical_example" maxlength="260" rows="3" autocomplete="off" placeholder="예: 가상의 $5,000 예치처 이동, $25 가스비, 2일 쿨다운, APY 4%와 6%. 실제 자산·지갑 정보는 입력 금지."></textarea></div>
+ <p class="fine"><strong>복구문구, 키, 지갑 주소, txHash, 실제 계정 잔액·자산, 고객 CSV, 민감한 금융·의료 정보를 보내지 마세요. 선택 텍스트에는 가상 사례만 작성하세요.</strong></p>
+ <label class="consent"><input id="external-delivery-consent" type="checkbox" name="external_provider_consent" value="yes" required><span>이 선택형 의견을 외부 FormSubmit 서비스가 운영자의 기존 이메일로 전달하는 것에 동의합니다. 서비스에서 발신자의 접속 메타데이터를 처리할 수 있습니다. 지갑 주소, 실제 자산 잔액·거래, 키, 기밀자료를 포함하지 않았습니다. 이 제출은 구매가 아닙니다.</span></label>
+ <p><button class="primary" type="submit">의견 보내기 (무료) →</button></p>
+ </form><p class="fine">페이지를 열거나 계산할 때는 의견이 전송되지 않습니다. 버튼을 누를 때만 FormSubmit에 전달되며 서비스의 정상 사람 인증이 필요할 수 있습니다. 인증을 비활성화하거나 우회하지 않습니다. GitHub와 이메일 경로도 이용할 수 있습니다.</p></section>
+<h2>그 밖의 피드백 방법</h2>
+<div class="options">
+<a href="https://github.com/livastic-vm2-primary-20260911/defi-yield-switch/issues/new?template=feedback.yml" target="_blank" rel="noopener noreferrer">공개 GitHub 이슈 작성 ↗</a>
+<a href="mailto:onecursor1@gmail.com?subject=DeFi%20Yield%20Switch%20customer%20question">비공개 작업 범위를 이메일로 문의 ↗</a>
+<a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/">무료 계산기로 돌아가기 ↗</a>
+<a href="https://livastic-vm2-primary-20260911.github.io/defi-yield-switch/ko/examples/">15 USDC 보고서 예시 미리보기 ↗</a>
+</div><p class="fine" style="margin-top:26px">AI 보조 개발 사실을 공개하는 동일한 소유자의 도구입니다. 투자 추천·수익 보장을 하지 않습니다.</p>
+</div></main><footer><div class="wrap">DeFi Switch Lab · AI-assisted original, 2026 · <a href="https://github.com/livastic-vm2-primary-20260911/defi-yield-switch">MIT source ↗</a></div></footer>
+</body></html>
