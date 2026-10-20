@@ -139,3 +139,17 @@ test('original third-party educational article links to real examples and local 
     assert(!html.includes('Feedback is opt-in via your own email app; this page collects none.'));
   }
 });
+
+test('actual no-wallet small DeFi position example exposes gas unit economics in EN/KO UI',()=>{
+  const app=read('assets/app.mjs');
+  for(const [html,needle] of [[en,'Small $20 fee trap'],[ko,'소액 $20 가스비 함정']]){
+    assert(html.includes('id="example-small"'));
+    assert(html.includes(needle));
+    assert(html.includes('실시간')||html.includes('not a live APY'));
+  }
+  assert(app.includes("$('example-small').addEventListener('click'"));
+  assert(app.includes('principal:20.04'));
+  assert(app.includes('gasUsd:0.50'));
+  assert(app.includes('targetBaseApy:7.3'));
+  assert(!/eth_sendTransaction|window\.ethereum|fetch\(/.test(app));
+});

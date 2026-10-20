@@ -181,6 +181,16 @@ $('example-costly').addEventListener('click',()=>{
     slippageBps:100,delayDays:7,lockDays:150,horizonDays:90});
   recalc();
 });
+$('example-small').addEventListener('click',()=>{
+  // Fictional 2026 public small-vault switch illustration. Do NOT treat July
+  // quoted Moonwell/Morpho APYs as current rates or executed transactions.
+  fill({...DEFAULTS,principal:20.04,
+    currentBaseApy:4.77,currentRewardApy:0,
+    targetBaseApy:7.3,targetRewardApy:0,rewardRealizationPct:0,
+    gasUsd:0.50,bridgeUsd:0,swapUsd:0,exitUsd:0,futureExitUsd:0,
+    slippageBps:0,delayDays:0,lockDays:0,horizonDays:30,reserveRequired:false});
+  recalc();
+});
 $('download').addEventListener('click',()=>{
   if(!lastResult)return;
   const report={

@@ -22,6 +22,12 @@ The optional (unchecked by default) **'I must access this emergency cash reserve
 
 We also corrected the withdrawableUnderAssumedLock calculation to count the **total time until possible target exit as bridge/cooldown delay + post-deposit lockup**, rather than just the latter. The numeric yield break-even formula is unchanged and is still a simplified, hypothetical simple-annual-interest comparison. See tests/reserve-liquidity.test.mjs for eight extra independently reproducible fail-closed cases. The tool does not know actual reserve eligibility or a person's finances.
 
+## Why the small-position example matters
+
+A real public July 14, 2026 DeFi operations post [The Rebalance That Keeps Almost Happening](https://dev.to/carter_may_96736e7b35986c/the-rebalance-that-keeps-almost-happening-12-days-watching-morpho-outperform-2f20) reported a $20.04 Moonwell position, 4.77% versus 7.30% APY, and about $0.50 round-trip gas. It **overstated the 30-day incremental yield by exactly 10×** ($0.417 versus approximately **$0.041672**): the gas bill is roughly **1,200%** of the month-one extra yield, not 119%. At those *July 2026* simplified, static rates, just recovering gas takes about **360 days**; satisfying a guard that gas be below **10%** of the additional yield would need roughly **3,600 days**. The post's conclusion to not rebalance remains directionally sound.
+
+The new EN/KO **Small $20 fee trap** button inserts a *fictional* variant of these public hypothetical numbers (zero rewards, no move delay, no lockup) so anyone can reproduce the arithmetic locally. Regression tests fix the percentage-point/decimal conversion boundary. It is **not** a statement of current Moonwell/Morpho yields, an endorsement by the article author, a recorded real user of this product, or proof that a DeFi investment is safe. An original DEV reply with that correction was drafted but the **native DEV Submit click was browser-actionability blocked before dispatch**. It was NOT publicly posted and was not retried through another tool, account, or VM.
+
 ## Local-only calculation
 
 User enters hypothetical USD principal, current and destination base/reward APY, reward haircut, gas, bridge/swap/exit costs, slippage bps, earning delay, withdrawal lock and decision horizon.

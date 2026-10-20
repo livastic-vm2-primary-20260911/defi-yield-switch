@@ -113,3 +113,24 @@ test('end horizon exact numeric consistency for simple interest',()=>{
   assert.equal(r.horizon.netAdvantageUsd,3650);
   assert.equal(r.breakEvenDays,0);
 });
+
+test('real published 2026 small-account unit mistake: 2.53 percentage-point spread is 4 cents, not 42 cents',()=>{
+  // Fictional arithmetic based on a publicly reported July 2026 $20 stablecoin
+  // scenario; not live rates, a wallet position, advice, or independent buyer.
+  const x={...DEFAULTS,principal:20.04,
+    currentBaseApy:4.77,currentRewardApy:0,
+    targetBaseApy:7.3,targetRewardApy:0,rewardRealizationPct:0,
+    gasUsd:0.50,bridgeUsd:0,swapUsd:0,exitUsd:0,futureExitUsd:0,
+    slippageBps:0,delayDays:0,lockDays:0,horizonDays:30,reserveRequired:false};
+  const r=evaluate(x);
+  assert.equal(r.spreadPct,2.53);
+  assert.equal(r.horizon.extraYieldBeforeCostsUsd,0.041672);
+  assert.equal(r.horizon.netAdvantageUsd,-0.458328);
+  assert.equal(r.breakEvenDays,360);
+  assert.equal(r.snapshots.find(row=>row.days===90).extraYieldBeforeCostsUsd,0.125017);
+  // For a stricter gas <10%-of-incremental-yield rule, simple math needs
+  // roughly ten times the first (100%-of-extra-yield) break-even horizon.
+  const extraPerDay=x.principal*(7.3-4.77)/36500;
+  assert(Math.ceil(0.5/(0.1*extraPerDay))>=3599);
+  assert(Math.ceil(0.5/(0.1*extraPerDay))<=3601);
+});
