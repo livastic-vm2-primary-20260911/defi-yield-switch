@@ -101,3 +101,11 @@ test('web UI sample high-fee scenario is significantly worse than typical when r
   assert(high.horizon.netAdvantageUsd<0);
   assert(!high.horizon.withdrawableUnderAssumedLock);
 });
+
+test('honest external crypto tools directory navigation is discoverable without paying for promotion',()=>{
+  for(const html of [en,ko]) {
+    assert(html.includes('href="https://polymart.app/crypto"'));
+    assert(html.includes('target="_blank" rel="noopener noreferrer">Crypto Tools Directory'));
+    assert(!html.includes('sponsored listing approved'));
+  }
+});
