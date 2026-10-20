@@ -63,3 +63,22 @@ test('readme explicitly distinguishes an owner synthetic error from real user fe
  assert(s.includes('two synthetic owner-only native form attempts'));
  assert(s.includes('neither test is a real customer inquiry'));
 });
+
+test('a failed third-party human verification has a real alternative; no false success claims',()=>{
+ const checks=[
+  ['quote/index.html','If it fails, use the email link below'],
+  ['ko/quote/index.html','인증이 실패하면 아래 이메일 링크를 이용'],
+  ['feedback/index.html','If delivery fails, do not assume'],
+  ['ko/feedback/index.html','인증에 실패하면 피드백이 도착한 것으로 간주하지']
+ ];
+ for(const [p,expected] of checks){
+  const html=source(p);
+  assert(html.includes(expected));
+  assert(html.includes('mailto:onecursor1@gmail.com?subject='));
+  assert(!html.includes('name="_captcha" value="false"'));
+ }
+ const doc=source('README.md');
+ assert(doc.includes('normal reCAPTCHA'));
+ assert(doc.includes('OWNER ONLY synthetic browser submission'));
+ assert(doc.includes('NOT a buyer conversion or delivery confirmation'));
+});
